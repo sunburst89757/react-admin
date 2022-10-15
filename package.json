@@ -10,6 +10,7 @@
     "@types/node": "^16.11.65",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "ahooks": "^3.7.1",
     "antd": "^4.23.5",
     "axios": "^1.1.2",
     "node-sass": "npm:dart-sass@^1.25.0",

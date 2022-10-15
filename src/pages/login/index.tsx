@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 export const Login = () => {
   const navigate = useNavigate();
@@ -7,7 +8,9 @@ export const Login = () => {
   return (
     <div className="container">
       login component
-      <button onClick={handleClick}>跳转</button>
+      <Button onClick={handleClick} type="primary">
+        跳转
+      </Button>
     </div>
   );
 };

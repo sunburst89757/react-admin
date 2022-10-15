@@ -1,6 +1,9 @@
 import zhCN from "antd/es/locale/zh_CN";
 import ConfigProvider from "antd/lib/config-provider";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistor, store } from "store";
 import App from "./App";
 
 import "./index.css";
@@ -11,7 +14,11 @@ const root = ReactDOM.createRoot(
 root.render(
   // <React.StrictMode>
   <ConfigProvider locale={zhCN}>
-    <App />
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
   </ConfigProvider>
   // </React.StrictMode>
 );

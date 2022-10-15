@@ -4,11 +4,14 @@ import { Button, Form, Input } from "antd";
 import { login } from "api/user";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { updateUserInfo } from "store/module/user.store";
+import { useAppDispatch } from "store/types";
 import style from "./login.module.scss";
 import { userType } from "./types";
 export const Login = () => {
   const [form] = Form.useForm<userType>();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { runAsync: hanleLogin } = useRequest(login, {
     manual: true
   });
@@ -17,6 +20,7 @@ export const Login = () => {
     hanleLogin({ username, password }).then((res) => {
       if (res.success) {
         navigate("/dashboard");
+        dispatch(updateUserInfo(res.data));
       }
     });
   };

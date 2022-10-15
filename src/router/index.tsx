@@ -1,4 +1,4 @@
-import { Layout } from "layout";
+import { MyLayout } from "layout";
 import { DashBoard } from "pages/dashboard";
 import { Login } from "pages/login";
 import { UserManage } from "pages/userManage";
@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
     path: "/",
     element: (
       <AuthRouter>
-        <Layout></Layout>
+        <MyLayout></MyLayout>
       </AuthRouter>
     ),
     children: [

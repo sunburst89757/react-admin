@@ -1,7 +1,9 @@
 import { Navigate, useLocation } from "react-router-dom";
+import { cache } from "utils/cache";
 
 export const AuthRouter = ({ children }: { children: JSX.Element }) => {
   const { pathname } = useLocation();
-  if (pathname === "/userManage") return <Navigate to="/login"></Navigate>;
+  const token = cache.getItem("token");
+  if (!token) return <Navigate to="/login"></Navigate>;
   return children;
 };

@@ -1,5 +1,7 @@
-import { AppstoreOutlined, SettingOutlined } from "@ant-design/icons";
 import { Layout, Menu, MenuProps } from "antd";
+import { Icon } from "components/Icon";
+import { useMemo } from "react";
+import { useAppSelector } from "store/types";
 // antd根据配置生成的菜单项
 const { Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
@@ -18,35 +20,34 @@ function getItem(
     type
   } as MenuItem;
 }
-const items: MenuProps["items"] = [
-  getItem("Navigation Two", "sub2", <AppstoreOutlined />, [
-    getItem("Option 5", "5"),
-    getItem("Option 6", "6"),
-    getItem("Submenu", "sub3", null, [
-      getItem("Option 7", "7"),
-      getItem("Option 8", "8")
-    ])
-  ]),
-
-  getItem("Navigation Three", "sub4", <SettingOutlined />, [
-    getItem("Option 9", "9"),
-    getItem("Option 10", "10"),
-    getItem("Option 11", "11"),
-    getItem("Option 12", "12")
-  ])
-];
 export function MySider({ isCollapse }: { isCollapse: boolean }) {
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
   };
+  const menu = useAppSelector((state) => state.menu.menuBackend);
+  const menuItems = useMemo(() => {
+    return menu.map((item) => {
+      if (item.children) {
+        return getItem(
+          item.name,
+          item.path,
+          <Icon type={item.icon}></Icon>,
+          item.children.map((child) =>
+            getItem(child.name, child.path, <Icon type={item.icon}></Icon>)
+          )
+        );
+      }
+      return getItem(item.name, item.path, <Icon type={item.icon}></Icon>);
+    });
+  }, [menu]);
   return (
     <Sider trigger={null} collapsible collapsed={isCollapse}>
       <Menu
         onClick={onClick}
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
+        defaultSelectedKeys={["dashboard"]}
+        defaultOpenKeys={["dashboard"]}
         mode="inline"
-        items={items}
+        items={menuItems}
         theme="dark"
       />
     </Sider>

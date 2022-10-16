@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { cache } from "utils/cache";
 import { RequestConfig } from "../types";
 export class MyRequest {
   service: AxiosInstance;
@@ -6,6 +7,10 @@ export class MyRequest {
     this.service = axios.create(config);
     this.service.interceptors.request.use(
       (config: AxiosRequestConfig) => {
+        const token = cache.getItem("token");
+        if (token) {
+          config.headers!.Authorization = token;
+        }
         return config;
       },
       (err: any) => {

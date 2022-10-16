@@ -7,7 +7,7 @@ const initialState: stateType = {
   userInfo: {
     userId: 0,
     username: "",
-    role: ""
+    roleId: 2
   },
   token: ""
 };
@@ -16,11 +16,11 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     updateUserInfo: (state, action: PayloadAction<Res>) => {
-      const { token, userId, username } = action.payload;
+      const { token, userId, username, roleId } = action.payload;
       state.token = token;
       state.userInfo.userId = userId;
       // 用户角色本来应该从action.payload里传递，新项目需要接口更改
-      state.userInfo.role = "super-admin";
+      state.userInfo.roleId = roleId;
       state.userInfo.username = username;
       cache.setItem("token", token);
     }

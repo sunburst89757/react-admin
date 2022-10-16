@@ -8,6 +8,7 @@ export interface Res {
   token: string;
   username: string;
   userId: number;
+  roleId: number;
 }
 export function login(params: requestParams) {
   return myRequest<requestParams, Res>({

@@ -76,9 +76,7 @@ export const Login = () => {
             </Form>
           </div>
         </div>
-        <div className={style.copyright}>
-          Copyright @ 2022 汉谷云智（武汉）科技有限公司
-        </div>
+        <div className={style.copyright}>Copyright @ 2022 XXXX科技有限公司</div>
       </div>
     </div>
   );

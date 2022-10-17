@@ -1,24 +1,27 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { useRequest } from "ahooks";
 import { Button, Dropdown, Layout, Menu, Space } from "antd";
+import { useReset } from "hooks/useReset";
 import { useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { cache } from "utils/cache";
 import { logout } from "../../api/user";
 import { useAppSelector } from "../../store/types";
 import style from "./Header.module.scss";
+const { Header } = Layout;
 type propType = {
   isCollapse: Boolean;
   onClick: () => void;
 };
 export function MyHeader({ isCollapse, onClick }: propType) {
-  const { Header } = Layout;
+  const reset = useReset();
   const navigate = useNavigate();
   const username = useAppSelector((state) => state.user.userInfo.username);
   const { run: handleLogout } = useRequest(logout, {
     manual: true,
     onSuccess: () => {
       cache.clear();
+      reset();
       navigate("/login");
     },
     onError: (err) => {

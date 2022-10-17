@@ -10,6 +10,5 @@ export const dashLoader = async ({ params, request }: LoaderFunctionArgs) => {
 export const DashBoard = () => {
   const res = useLoaderData();
   console.log(res);
-
   return <div>这时首页</div>;
 };

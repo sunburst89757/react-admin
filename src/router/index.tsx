@@ -1,11 +1,10 @@
 import { MyLayout } from "layout";
-import { DashBoard } from "pages/dashboard";
 import { Login } from "pages/login";
-import { UserManage } from "pages/userManage";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouteObject } from "react-router-dom";
 import { AuthRouter } from "./utils/authRouter";
+import { LazyLoad } from "./utils/lazyLoad";
 
-export const router = createBrowserRouter([
+const router: RouteObject[] = [
   {
     path: "/login",
     element: <Login></Login>
@@ -20,12 +19,10 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "dashboard",
-        element: <DashBoard></DashBoard>
-      },
-      {
-        path: "userManage",
-        element: <UserManage></UserManage>
+        element: <LazyLoad path="dashboard"></LazyLoad>
       }
     ]
   }
-]);
+];
+
+export default createBrowserRouter(router);

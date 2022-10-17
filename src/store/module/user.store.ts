@@ -23,12 +23,13 @@ const userSlice = createSlice({
       state.userInfo.roleId = roleId;
       state.userInfo.username = username;
       cache.setItem("token", token);
-    }
+    },
+    resetUser: () => initialState
   }
 });
 // 导出selector
 export const selectUser = (state: RootState) => state.user.userInfo;
 // 导出actions
-export const { updateUserInfo } = userSlice.actions;
+export const { updateUserInfo, resetUser } = userSlice.actions;
 // 导出reducer
 export const userReducer = userSlice.reducer;

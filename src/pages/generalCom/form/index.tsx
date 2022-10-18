@@ -1,3 +1,3 @@
-export const Form = () => {
+export default function Form() {
   return <div>form</div>;
-};
+}

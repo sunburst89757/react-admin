@@ -7,8 +7,8 @@ export const dashLoader = async ({ params, request }: LoaderFunctionArgs) => {
 
   return await login({ username: "tyz", password: "729" });
 };
-export const DashBoard = () => {
+export default function Dashboard() {
   const res = useLoaderData();
   console.log(res);
   return <div>这时首页</div>;
-};
+}

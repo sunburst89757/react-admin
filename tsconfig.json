@@ -9,6 +9,7 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    // 防止switch语句贯穿
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",

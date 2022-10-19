@@ -19,7 +19,7 @@ export const Login = () => {
     const { username, password } = form.getFieldsValue();
     hanleLogin({ username, password }).then((res) => {
       if (res.success) {
-        navigate("/dashboard");
+        navigate("/");
         dispatch(updateUserInfo(res.data));
       }
     });

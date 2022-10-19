@@ -19,6 +19,10 @@ const router: RouteObject[] = [
       {
         path: "roleManage",
         element: <LazyLoad path="setting/roleManage"></LazyLoad>
+      },
+      {
+        path: "menuManage",
+        element: <LazyLoad path="setting/menuManage"></LazyLoad>
       }
     ]
   }

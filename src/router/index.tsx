@@ -19,7 +19,7 @@ const router: RouteObject[] = [
     ),
     children: [
       {
-        index: true,
+        path: "dashboard",
         element: <LazyLoad path="dashboard"></LazyLoad>
       }
     ]

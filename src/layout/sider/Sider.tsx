@@ -1,6 +1,7 @@
 import { Layout, Menu, MenuProps } from "antd";
 import { Icon } from "components/Icon";
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "store/types";
 // antd根据配置生成的菜单项
 const { Sider } = Layout;
@@ -21,8 +22,14 @@ function getItem(
   } as MenuItem;
 }
 export function MySider({ isCollapse }: { isCollapse: boolean }) {
+  const navigate = useNavigate();
   const onClick: MenuProps["onClick"] = (e) => {
-    console.log("click ", e);
+    let path = "";
+    for (let i = e.keyPath.length - 1; i >= 0; i--) {
+      path += `/${e.keyPath[i]}`;
+    }
+    console.log(path);
+    navigate(path);
   };
   const menu = useAppSelector((state) => state.menu.menuBackend);
   const menuItems = useMemo(() => {
@@ -33,7 +40,7 @@ export function MySider({ isCollapse }: { isCollapse: boolean }) {
           item.path,
           <Icon type={item.icon}></Icon>,
           item.children.map((child) =>
-            getItem(child.name, child.path, <Icon type={item.icon}></Icon>)
+            getItem(child.name, child.path, <Icon type={child.icon}></Icon>)
           )
         );
       }

@@ -50,6 +50,7 @@ export const MyTag = () => {
       {tags.map((tag) => {
         return (
           <Tag
+            key={tag.name}
             closable={!tag.fixed}
             className={style.tag}
             onClose={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {

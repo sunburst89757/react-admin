@@ -58,6 +58,7 @@ export const MyTag = () => {
             onClick={() => {
               handleClick(tag);
             }}
+            color={tag.url === location.pathname ? "blue" : ""}
           >
             {tag.name}
           </Tag>

@@ -1,5 +1,7 @@
 import { Button, Col, Form, Input, Modal, Row, Space } from "antd";
 import { addMenu, Menu } from "api/menu";
+import { useAppDispatch, useAppSelector } from "store/types";
+import { generateAuthMenu } from "utils/generateAuthMenu";
 
 export default function AddMenu({
   isOpen,
@@ -9,18 +11,31 @@ export default function AddMenu({
   toggle: () => void;
 }) {
   const [form] = Form.useForm<Partial<Menu>>();
+  const { roleId } = useAppSelector((state) => state.user.userInfo);
+  const dispatch = useAppDispatch();
   const handleSubmit = () => {
     addMenu({
       ...form.getFieldsValue(),
       sort: Number(form.getFieldValue("sort"))
-    }).then((res) => {
-      console.log(res);
+    }).then(async (res) => {
+      if (res.success) {
+        // 更新了后端路由也要立即更新权限路由
+        await generateAuthMenu(roleId, dispatch, toggle);
+      }
     });
   };
   return (
     <div>
-      <Modal title="添加菜单" open={isOpen} footer={null}>
-        <Form form={form} onFinish={handleSubmit}>
+      <Modal
+        title="添加菜单"
+        open={isOpen}
+        footer={null}
+        destroyOnClose={true}
+        onCancel={() => {
+          toggle();
+        }}
+      >
+        <Form form={form} onFinish={handleSubmit} preserve={false}>
           <Row gutter={16}>
             <Col span={24}>
               <Form.Item label="菜单名称" name="name">

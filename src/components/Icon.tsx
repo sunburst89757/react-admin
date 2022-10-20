@@ -1,7 +1,13 @@
 import { createFromIconfontCN } from "@ant-design/icons";
-
+const URL = "//at.alicdn.com/t/c/font_3708242_qbhhm7lkdt.js";
 const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/c/font_3708242_xjd8q86xp.js"
+  scriptUrl: URL
 });
 
-export const Icon = ({ type }: { type: string }) => <IconFont type={type} />;
+export const Icon = ({
+  type,
+  className
+}: {
+  type: string;
+  className?: string;
+}) => <IconFont type={type} className={className} />;

@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Menu } from "api/menu";
 import { RootState } from "store";
+import { ITag } from "./tag.store";
+export type IAuthRouter = Pick<ITag, "name" | "url">;
 const initialState: {
   menuBackend: Menu[];
-  authRouter: string[];
+  authRoutes: IAuthRouter[];
 } = {
   menuBackend: [],
-  authRouter: ["/dashboard"]
+  authRoutes: []
 };
 const menuSlice = createSlice({
   name: "menu",
@@ -15,8 +17,8 @@ const menuSlice = createSlice({
     updateMenu: (state, action: PayloadAction<Menu[]>) => {
       state.menuBackend = action.payload;
     },
-    generateAuthRouter: (state, action: PayloadAction<string[]>) => {
-      state.authRouter = [...new Set([...state.authRouter, ...action.payload])];
+    generateAuthRoutes: (state, action: PayloadAction<IAuthRouter[]>) => {
+      state.authRoutes = [...new Set([...state.authRoutes, ...action.payload])];
     },
     resetMenu: () => initialState
   }
@@ -24,6 +26,6 @@ const menuSlice = createSlice({
 // 导出selector
 export const selectMenu = (state: RootState) => state.menu.menuBackend;
 // 导出actions
-export const { updateMenu, generateAuthRouter, resetMenu } = menuSlice.actions;
+export const { updateMenu, generateAuthRoutes, resetMenu } = menuSlice.actions;
 // 导出reducer
 export const menuReducer = menuSlice.reducer;

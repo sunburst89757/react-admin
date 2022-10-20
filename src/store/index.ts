@@ -3,6 +3,7 @@ import { combineReducers } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { menuReducer } from "./module/menu.store";
+import { tagReducer } from "./module/tag.store";
 import { userReducer } from "./module/user.store";
 const persistConfig = {
   key: "root",
@@ -12,7 +13,8 @@ const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
     user: userReducer,
-    menu: menuReducer
+    menu: menuReducer,
+    tag: tagReducer
   })
 );
 export const store = configureStore({

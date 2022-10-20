@@ -1,0 +1,15 @@
+.tagContainer {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  background-color: #fff;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.tag {
+  cursor: pointer;
+}
+.icon {
+  padding: 0 7px;
+  color: #dfdfdf;
+}

@@ -5,7 +5,7 @@ import { LazyLoad } from "router/utils/lazyLoad";
 
 const router: RouteObject[] = [
   {
-    path: "setting",
+    path: "/setting",
     element: (
       <AuthRouter>
         <MyLayout></MyLayout>

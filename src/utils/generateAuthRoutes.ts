@@ -1,8 +1,8 @@
 import { Menu } from "api/menu";
-import { IAuthRouter } from "store/module/menu.store";
+import { IAuthRoute } from "store/module/menu.store";
 
 export const generateRoutes = (backendMenu: Menu[]) => {
-  const authRouter: IAuthRouter[] = [];
+  const authRouter: IAuthRoute[] = [];
   backendMenu.forEach((router) => {
     const fatherRouter = "/" + router.path;
     if (router.children) {

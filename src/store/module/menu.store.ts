@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Menu } from "api/menu";
 import { RootState } from "store";
 import { ITag } from "./tag.store";
-export type IAuthRouter = Pick<ITag, "name" | "url">;
+export type IAuthRoute = Pick<ITag, "name" | "url">;
 const initialState: {
   menuBackend: Menu[];
-  authRoutes: IAuthRouter[];
+  authRoutes: IAuthRoute[];
 } = {
   menuBackend: [],
   authRoutes: []
@@ -17,7 +17,7 @@ const menuSlice = createSlice({
     updateMenu: (state, action: PayloadAction<Menu[]>) => {
       state.menuBackend = action.payload;
     },
-    generateAuthRoutes: (state, action: PayloadAction<IAuthRouter[]>) => {
+    generateAuthRoutes: (state, action: PayloadAction<IAuthRoute[]>) => {
       state.authRoutes = [...new Set([...state.authRoutes, ...action.payload])];
     },
     resetMenu: () => initialState

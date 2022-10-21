@@ -1,5 +1,6 @@
 import { MyLayout } from "layout";
 import { Login } from "pages/login";
+import { NotFound } from "pages/notFound";
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import componentsRoutes from "./module/components";
 import settingRoutes from "./module/setting";
@@ -17,6 +18,7 @@ const router: RouteObject[] = [
         <MyLayout></MyLayout>
       </AuthRouter>
     ),
+    errorElement: <NotFound></NotFound>,
     children: [
       {
         path: "dashboard",

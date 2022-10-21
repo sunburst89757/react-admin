@@ -14,12 +14,14 @@ export function login(params: requestParams) {
   return myRequest<requestParams, Res>({
     url: "/user/login",
     params,
-    method: "post"
+    method: "post",
+    successMsg: "登录成功"
   });
 }
 export function logout() {
   return myRequest({
     url: "/user/logout",
-    method: "get"
+    method: "get",
+    successMsg: "退出成功"
   });
 }

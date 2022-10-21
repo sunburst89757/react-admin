@@ -1,4 +1,7 @@
+import { message } from "antd";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { ImyRequest } from "service";
+import { errorHandle } from "service/utils/errorhandle";
 import { cache } from "utils/cache";
 import { RequestConfig } from "../types";
 export class MyRequest {
@@ -25,11 +28,20 @@ export class MyRequest {
     );
     this.service.interceptors.response.use(
       (res: AxiosResponse) => {
-        // console.log(res, "公共响应拦截成功");
-        return res.data;
+        const { config, data } = res;
+        //   错误处理
+        if (data.code !== 200) {
+          return errorHandle(data.code, data.message);
+        }
+
+        // 成功提示
+        (config as ImyRequest).successMsg &&
+          message.success((config as ImyRequest).successMsg, 1);
+        return data;
       },
       (err) => {
         // console.log(err, "公共响应拦截失败");
+        message.error("请求错误，请联系管理员");
         return Promise.reject(err);
       }
     );

@@ -16,10 +16,10 @@ export interface Menu {
   children: Menu[] | null;
 }
 
-export function getMenuListByRoleId(params: requestParams) {
+export function getMenuListByRoleId(data: requestParams) {
   return myRequest<requestParams, Menu[]>({
     url: "/menu/list",
-    params,
+    data,
     method: "get"
   });
 }

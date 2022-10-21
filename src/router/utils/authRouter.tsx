@@ -25,5 +25,6 @@ export const AuthRouter = ({ children }: { children: JSX.Element }) => {
   }
   if (pathname === "/") return <Navigate to="/dashboard"></Navigate>;
   if (!isPermit(pathname, authRoutes)) return <NotAuth></NotAuth>;
+  document.title = authRoutes.find((item) => item.url === pathname)?.name!;
   return children;
 };

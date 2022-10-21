@@ -6,7 +6,7 @@ export default function MenuManage() {
   const [form] = Form.useForm();
   const [isOpen, { toggle }] = useToggle(false);
   return (
-    <div>
+    <div className="pageContainer">
       <Form form={form}>
         <Row gutter={16}>
           <Col span={6}>

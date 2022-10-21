@@ -1,1 +1,10 @@
 @import "~antd/dist/antd.css";
+.container {
+  height: 100%;
+}
+
+.pageContainer {
+  padding: 20px 15px;
+  height: 100%;
+  background-color: #fff;
+}

@@ -6,7 +6,7 @@ import style from "./Content.module.scss";
 const { Content } = Layout;
 export function MyContent() {
   return (
-    <Content>
+    <Content className="container">
       <MyTag></MyTag>
       <div className={style.container}>
         <Outlet></Outlet>

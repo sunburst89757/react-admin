@@ -11,7 +11,7 @@ export const MyLayout = () => {
   };
   return (
     <>
-      <Layout style={{ height: "100vh" }}>
+      <Layout className="container">
         <MyHeader isCollapse={isCollapse} onClick={toggle}></MyHeader>
         <Layout>
           <MySider isCollapse={isCollapse}></MySider>

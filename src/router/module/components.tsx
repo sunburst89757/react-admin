@@ -5,7 +5,7 @@ import { LazyLoad } from "router/utils/lazyLoad";
 
 const router: RouteObject[] = [
   {
-    path: "/generalCom",
+    path: "/components",
     element: (
       <AuthRouter>
         <MyLayout></MyLayout>
@@ -19,6 +19,10 @@ const router: RouteObject[] = [
       {
         path: "form",
         element: <LazyLoad path="generalCom/form"></LazyLoad>
+      },
+      {
+        path: "tab",
+        element: <LazyLoad path="generalCom/tab"></LazyLoad>
       }
     ]
   }

@@ -1,5 +1,5 @@
 import { createFromIconfontCN } from "@ant-design/icons";
-const URL = "//at.alicdn.com/t/c/font_3708242_qbhhm7lkdt.js";
+const URL = "//at.alicdn.com/t/c/font_3708242_q68oodmjyos.js";
 const IconFont = createFromIconfontCN({
   scriptUrl: URL
 });

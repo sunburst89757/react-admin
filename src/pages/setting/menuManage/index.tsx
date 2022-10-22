@@ -2,6 +2,7 @@ import { useToggle } from "ahooks";
 import { Button, Col, Form, Input, Row, Space } from "antd";
 import { Icon } from "components/Icon";
 import AddMenu from "./components/addMenu";
+
 export default function MenuManage() {
   const [form] = Form.useForm();
   const [isOpen, { toggle }] = useToggle(false);
@@ -17,8 +18,12 @@ export default function MenuManage() {
           <Col span={8}>
             <Form.Item>
               <Space>
-                <Button type="primary">查询</Button>
-                <Button type="primary">重置</Button>
+                <Button type="primary" icon={<Icon type="icon-chaxun" />}>
+                  查询
+                </Button>
+                <Button type="primary" icon={<Icon type="icon-reset" />}>
+                  重置
+                </Button>
               </Space>
             </Form.Item>
           </Col>

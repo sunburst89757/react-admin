@@ -1,12 +1,16 @@
 @import "~antd/dist/antd.css";
+@tailwind base;
+/* 这个样式下的媒体查询会导致大屏幕下基本样式溢出 */
+/* @tailwind components; */
+@tailwind utilities;
 .container {
   height: 100%;
 }
 
 .pageContainer {
+  display: flex;
   padding: 20px 15px;
   height: 100%;
-  background-color: #fff;
 }
 
 .highlightTree {

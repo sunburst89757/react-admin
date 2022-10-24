@@ -6,6 +6,8 @@ export const LayoutTree = ({
   width?: string;
 }) => {
   return (
-    <div className={`mr-3 bg-white w-[${width}] h-[100%] p-3`}>{children}</div>
+    <div className={`mr-3 bg-white w-[${width}] h-[100%] p-3 overflow-auto`}>
+      {children}
+    </div>
   );
 };

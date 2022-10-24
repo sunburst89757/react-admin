@@ -21,6 +21,7 @@ const router: RouteObject[] = [
         element: <LazyLoad path="setting/roleManage"></LazyLoad>
       },
       {
+        // 菜单管理只有管理员才有，管理员可以查询所有的菜单
         path: "menuManage",
         element: <LazyLoad path="setting/menuManage"></LazyLoad>
       }

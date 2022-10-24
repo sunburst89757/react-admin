@@ -1,33 +1,80 @@
-import { Button, Col, Form, Input, Modal, Row, Space } from "antd";
-import { addMenu, Menu } from "api/menu";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Modal,
+  Radio,
+  RadioChangeEvent,
+  Row,
+  Space
+} from "antd";
+import { addMenu, editMenu, Menu } from "api/menu";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "store/types";
 import { generateAuthMenu } from "utils/generateAuthMenu";
-
-export default function AddMenu({
+import { MenuDataType } from "..";
+function AddOrUpdateMenu({
+  type,
   isOpen,
-  toggle
+  toggle,
+  cb,
+  data
 }: {
   isOpen: boolean;
   toggle: () => void;
+  cb: () => void;
+  type: "add" | "update";
+  data?: MenuDataType;
 }) {
   const [form] = Form.useForm<Partial<Menu>>();
   const { roleId } = useAppSelector((state) => state.user.userInfo);
   const dispatch = useAppDispatch();
   const handleSubmit = () => {
-    addMenu({
-      ...form.getFieldsValue(),
-      sort: Number(form.getFieldValue("sort"))
-    }).then(async (res) => {
-      if (res.success) {
-        // 更新了后端路由也要立即更新权限路由
-        await generateAuthMenu(roleId, dispatch, toggle);
-      }
-    });
+    if (type === "add") {
+      addMenu({
+        ...form.getFieldsValue(),
+        sort: Number(form.getFieldValue("sort"))
+      }).then(async (res) => {
+        if (res.success) {
+          // 更新了后端路由也要立即更新权限路由
+          await generateAuthMenu(roleId, dispatch);
+          toggle();
+          cb();
+        }
+      });
+    } else {
+      editMenu({
+        id: data?.id,
+        ...form.getFieldsValue(),
+        sort: Number(form.getFieldValue("sort"))
+      }).then(async (res) => {
+        if (res.success) {
+          // 更新了后端路由也要立即更新权限路由
+          await generateAuthMenu(roleId, dispatch);
+          toggle();
+          cb();
+        }
+      });
+    }
   };
+  const onChange = (e: RadioChangeEvent) => {
+    form.setFieldValue("isValid", e.target.value);
+  };
+  // 不应该使用useEffect,目的是组件重新渲染的时候
+  // useEffect(() => {
+  //   if (type === "update") {
+  //     form.setFieldsValue(data!);
+  //   }
+  // }, [type, data, form]);
+  if (type === "update") {
+    console.log("只应该打开表单触发");
+    form.setFieldsValue(data!);
+  }
   return (
     <div>
       <Modal
-        title="添加菜单"
+        title={type === "add" ? "添加菜单" : "修改菜单"}
         open={isOpen}
         footer={null}
         destroyOnClose={true}
@@ -64,6 +111,21 @@ export default function AddMenu({
               </Form.Item>
             </Col>
           </Row>
+          {type === "update" && (
+            <Row gutter={16}>
+              <Col span={24}>
+                <Form.Item label="菜单状态" name="isValid">
+                  <Radio.Group
+                    onChange={onChange}
+                    value={form.getFieldValue("isValid")}
+                  >
+                    <Radio value={true}>正常</Radio>
+                    <Radio value={false}>禁用</Radio>
+                  </Radio.Group>
+                </Form.Item>
+              </Col>
+            </Row>
+          )}
           <Row gutter={16}>
             <Col span={24} offset={16}>
               <Form.Item>
@@ -87,3 +149,5 @@ export default function AddMenu({
     </div>
   );
 }
+
+export default React.memo(AddOrUpdateMenu);

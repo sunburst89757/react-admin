@@ -36,3 +36,18 @@ export function getMenuList(data: IQueryMenu) {
     data
   });
 }
+
+export function editMenu(data: Partial<Menu>) {
+  return myRequest<any, any>({
+    url: `/menu/update`,
+    method: "post",
+    data
+  });
+}
+export function deleteMenu(id: number) {
+  return myRequest({
+    url: `/menu/delete/${id}`,
+    method: "delete",
+    successMsg: "删除成功"
+  });
+}

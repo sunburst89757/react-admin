@@ -1,8 +1,8 @@
 import { useRequest, useToggle } from "ahooks";
-import { Button, Col, Form, Input, Row, Space, Table } from "antd";
+import { Button, Col, Form, Row, Space, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { DataNode } from "antd/lib/tree";
-import { Menu } from "api/menu";
+import { deleteMenu, Menu } from "api/menu";
 import { getMenuList as queryMenuList } from "api/menu";
 import { PageInfo } from "api/types";
 import { Icon } from "components/Icon";
@@ -10,67 +10,14 @@ import { LayoutTree } from "components/LayoutTree";
 import { MainLayout } from "components/MainLayout";
 import { MyTree } from "components/MyTree";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useAppSelector } from "store/types";
-import AddMenu from "./components/addMenu";
-type DataType = Pick<
+import { useAppDispatch, useAppSelector } from "store/types";
+import { generateAuthMenu } from "utils/generateAuthMenu";
+import AddOrUpdateMenu from "./components/addOrUpdateMenu";
+export type MenuDataType = Pick<
   Menu,
-  "name" | "icon" | "sort" | "createdAt" | "updatedAt"
-> & {
-  isValid: boolean;
-};
-const columns: ColumnsType<DataType> = [
-  {
-    title: "菜单名称",
-    dataIndex: "name",
-    align: "center",
-    key: "name"
-  },
-  {
-    title: "图标",
-    key: "icon",
-    render: (_, record) => <Icon type={record.icon}></Icon>,
-    align: "center"
-  },
-  {
-    title: "排序",
-    dataIndex: "sort",
-    key: "sort",
-    align: "center"
-  },
-  {
-    title: "状态",
-    key: "isValid",
-    render: (_, record) => (
-      <Button type="ghost" size="small">
-        {record.isValid || "正常"}
-      </Button>
-    ),
-    align: "center"
-  },
-  {
-    title: "创建时间",
-    dataIndex: "createdAt",
-    key: "createdAt",
-    align: "center"
-  },
-  {
-    title: "更新时间",
-    dataIndex: "updatedAt",
-    key: "updatedAt",
-    align: "center"
-  },
-  {
-    title: "操作",
-    key: "action",
-    render: (_, record) => (
-      <Space size="middle">
-        <Button type="primary">修改</Button>
-        <Button danger>删除</Button>
-      </Space>
-    ),
-    align: "center"
-  }
-];
+  "name" | "icon" | "sort" | "createdAt" | "updatedAt" | "isValid" | "id"
+>;
+
 export default function MenuManage() {
   const { run: getMenuList, loading } = useRequest(queryMenuList, {
     manual: true,
@@ -84,8 +31,11 @@ export default function MenuManage() {
       settotal(res.data.total);
     }
   });
+  const dispatch = useAppDispatch();
+  const roleId = useAppSelector((state) => state.user.userInfo.roleId);
   const [form] = Form.useForm();
   const [isOpen, { toggle }] = useToggle(false);
+  const [type, setType] = useState<"add" | "update">("add");
   // 初始值必须为空，空才是查询所有
   const [path, setPath] = useState<string>("");
   const [dataList, setdataList] = useState<Menu[]>();
@@ -104,6 +54,10 @@ export default function MenuManage() {
     path,
     ...pageInfo
   });
+  const queryRequest = useCallback(() => {
+    getMenuList(queryParmas.current);
+  }, [getMenuList]);
+  const rowData = useRef<MenuDataType>();
   const menu = useAppSelector((state) => state.menu.menuBackend);
   const treeData = useMemo(() => {
     const tree: DataNode[] = [];
@@ -125,27 +79,91 @@ export default function MenuManage() {
       children.length > 0 && (obj.children = children);
       tree.push(obj);
     });
-    return tree;
+    return [
+      {
+        key: "",
+        title: "系统资源",
+        children: tree
+      }
+    ];
   }, [menu]);
+  const columns = useRef<ColumnsType<MenuDataType>>([
+    {
+      title: "菜单名称",
+      dataIndex: "name",
+      align: "center",
+      key: "name"
+    },
+    {
+      title: "图标",
+      key: "icon",
+      render: (_, record) => <Icon type={record.icon}></Icon>,
+      align: "center"
+    },
+    {
+      title: "排序",
+      dataIndex: "sort",
+      key: "sort",
+      align: "center"
+    },
+    {
+      title: "状态",
+      key: "isValid",
+      render: (_, record) => (
+        <Button type="ghost" size="small">
+          {record.isValid ? "正常" : "禁用"}
+        </Button>
+      ),
+      align: "center"
+    },
+    {
+      title: "创建时间",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      align: "center"
+    },
+    {
+      title: "更新时间",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+      align: "center"
+    },
+    {
+      title: "操作",
+      key: "action",
+      render: (_, record) => (
+        <Space size="middle">
+          <Button
+            type="primary"
+            onClick={() => {
+              setType("update");
+              rowData.current = record;
+              toggle();
+            }}
+          >
+            修改
+          </Button>
+          <Button
+            danger
+            onClick={() => {
+              onDelete(record.id);
+            }}
+          >
+            删除
+          </Button>
+        </Space>
+      ),
+      align: "center"
+    }
+  ]);
   const clickNode = useCallback(
     (node: string) => {
       setPath(node);
       queryParmas.current.path = node;
-      getMenuList(queryParmas.current);
+      queryRequest();
     },
-    [getMenuList]
+    [queryRequest]
   );
-  const onFinish = useCallback(() => {
-    queryParmas.current.name = form.getFieldValue("menuName");
-    getMenuList(queryParmas.current);
-  }, [getMenuList, form]);
-  const onReset = useCallback(() => {
-    form.resetFields();
-    console.log(form.getFieldsValue());
-
-    queryParmas.current.name = "";
-    getMenuList(queryParmas.current);
-  }, [getMenuList, form]);
   const onChange = useCallback(
     (page: number, pageSize: number) => {
       queryParmas.current.page = page;
@@ -154,13 +172,22 @@ export default function MenuManage() {
         page,
         pageSize
       });
-      getMenuList(queryParmas.current);
+      queryRequest();
     },
-    [getMenuList]
+    [queryRequest]
   );
+  const onDelete = useCallback(
+    async (id: number) => {
+      await deleteMenu(id);
+      await generateAuthMenu(roleId, dispatch);
+      queryRequest();
+    },
+    [roleId, dispatch, queryRequest]
+  );
+
   useEffect(() => {
-    getMenuList(queryParmas.current);
-  }, [getMenuList]);
+    queryRequest();
+  }, [queryRequest]);
 
   return (
     <div className="pageContainer">
@@ -169,54 +196,32 @@ export default function MenuManage() {
       </LayoutTree>
       <MainLayout>
         <>
-          <Form form={form} onFinish={onFinish}>
-            <Row gutter={16}>
-              <Col span={6}>
-                <Form.Item label="菜单名称" name="menuName">
-                  <Input placeholder="输入菜单名称"></Input>
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item>
-                  <Space>
-                    <Button
-                      type="primary"
-                      icon={<Icon type="icon-chaxun" />}
-                      htmlType="submit"
-                    >
-                      查询
-                    </Button>
-                    <Button
-                      type="primary"
-                      icon={<Icon type="icon-reset" />}
-                      onClick={onReset}
-                    >
-                      重置
-                    </Button>
-                  </Space>
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={6}>
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    icon={<Icon type="icon-add" />}
-                    onClick={() => {
-                      toggle();
-                    }}
-                  >
-                    添加
-                  </Button>
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form>
-          <AddMenu isOpen={isOpen} toggle={toggle}></AddMenu>
+          <Row gutter={16}>
+            <Col span={6}>
+              <Form.Item>
+                <Button
+                  type="primary"
+                  icon={<Icon type="icon-add" />}
+                  onClick={() => {
+                    setType("add");
+                    toggle();
+                  }}
+                >
+                  添加
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+          <AddOrUpdateMenu
+            type={type}
+            isOpen={isOpen}
+            toggle={toggle}
+            data={rowData.current}
+            cb={queryRequest}
+          ></AddOrUpdateMenu>
           <Table
             dataSource={dataList}
-            columns={columns}
+            columns={columns.current}
             size="small"
             bordered
             pagination={{

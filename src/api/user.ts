@@ -1,5 +1,6 @@
 import { myRequest } from "../service";
 import { Menu } from "./menu";
+import { ListRes, PageInfo } from "./types";
 
 export interface IUser {
   username: string;
@@ -11,6 +12,22 @@ export interface Res {
   userId: number;
   roleId: number;
 }
+export type IUserList = {
+  id: number;
+  email: string | null;
+  username: string;
+  password: string;
+  avatarUrl: string | null;
+  role: {
+    roleName: string;
+    id: number;
+  };
+  isValid: boolean;
+  description: string | null;
+  roleId: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
 export function login(params: IUser) {
   return myRequest<IUser, Res>({
     url: "/user/login",
@@ -30,5 +47,33 @@ export function logout() {
     url: "/user/logout",
     method: "get",
     successMsg: "退出成功"
+  });
+}
+
+export function getUserList(data: { username: string } & PageInfo) {
+  return myRequest<any, ListRes<IUserList[]>>({
+    url: "/user/list",
+    method: "get",
+    data
+  });
+}
+export function updateUser(data: Partial<IUserList>) {
+  return myRequest<any, any>({
+    url: "/user/update",
+    method: "post",
+    data
+  });
+}
+export function deleteUser(id: number) {
+  return myRequest<any, any>({
+    url: `/user/delete/${id}`,
+    method: "delete"
+  });
+}
+export function addUser(data: Partial<IUserList>) {
+  return myRequest<any, any>({
+    url: "/user/add",
+    method: "post",
+    data
   });
 }

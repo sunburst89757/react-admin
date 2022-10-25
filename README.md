@@ -8,6 +8,7 @@
 - TypeScript: javaScript 的超集，支持静态类型检测
 - redux-toolkit: 全局状态管理工具
 - react-router-dom6: 路由管理工具
+- css module 和 tailwind css 做样式管理方案
 
 ## 准备
 
@@ -18,6 +19,7 @@
 - 熟悉 react-router-dom6 的基本使用
 - 熟悉 redux 的基本使用
 - 熟悉 Antd 组件库 ui 的使用
+- 熟悉 css module 和 tailwind css 样式的基本使用方法
 
 ### 安装使用
 

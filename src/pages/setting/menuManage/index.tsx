@@ -12,6 +12,7 @@ import { MyTree } from "components/MyTree";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "store/types";
 import { generateAuthMenu } from "utils/generateAuthMenu";
+import { transferTime } from "utils/handleTime";
 import AddOrUpdateMenu from "./components/addOrUpdateMenu";
 export type MenuDataType = Pick<
   Menu,
@@ -118,13 +119,13 @@ export default function MenuManage() {
     },
     {
       title: "创建时间",
-      dataIndex: "createdAt",
+      render: (record) => transferTime(record.createdAt),
       key: "createdAt",
       align: "center"
     },
     {
       title: "更新时间",
-      dataIndex: "updatedAt",
+      render: (record) => transferTime(record.updatedAt),
       key: "updatedAt",
       align: "center"
     },
@@ -220,6 +221,7 @@ export default function MenuManage() {
             cb={queryRequest}
           ></AddOrUpdateMenu>
           <Table
+            rowKey={(record) => record.id}
             dataSource={dataList}
             columns={columns.current}
             size="small"

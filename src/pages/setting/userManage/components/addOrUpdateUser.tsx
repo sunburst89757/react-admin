@@ -69,7 +69,13 @@ function AddOrUpdateUser({
   }, []);
   if (type === "update") {
     console.log("只应该打开表单触发", data);
-    form.setFieldsValue(data!);
+    form.setFieldsValue({
+      ...data!,
+      password: ""
+    });
+  } else {
+    // 给一个默认值
+    form.setFieldValue("roleId", 2);
   }
   return (
     <div>
@@ -102,8 +108,7 @@ function AddOrUpdateUser({
               <Form.Item label="用户角色" name="roleId">
                 {/* <InputNumber placeholder="请输入用户角色"></InputNumber> */}
                 <Select
-                  defaultValue="lucy"
-                  style={{ width: 120 }}
+                  // style={{ width: 120 }}
                   value={form.getFieldValue("roleId")}
                   onChange={handleChange}
                 >

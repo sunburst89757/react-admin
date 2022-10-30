@@ -18,7 +18,7 @@ export interface Menu {
   children: Menu[] | null;
 }
 export type IQueryMenu = {
-  path: string;
+  id: number;
 } & PageInfo;
 export function addMenu(data: Partial<Menu>) {
   return myRequest<Partial<Menu>, Menu[]>({

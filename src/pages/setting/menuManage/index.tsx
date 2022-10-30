@@ -34,11 +34,10 @@ export default function MenuManage() {
   });
   const dispatch = useAppDispatch();
   const roleId = useAppSelector((state) => state.user.userInfo.roleId);
-  const [form] = Form.useForm();
   const [isOpen, { toggle }] = useToggle(false);
   const [type, setType] = useState<"add" | "update">("add");
   // 初始值必须为空，空才是查询所有
-  const [path, setPath] = useState<string>("");
+  const [id, setId] = useState(0);
   const [dataList, setdataList] = useState<Menu[]>();
   const [pageInfo, setpageInfo] = useState<PageInfo>({
     page: 1,
@@ -47,12 +46,10 @@ export default function MenuManage() {
   const [total, settotal] = useState<number>(10);
   const queryParmas = useRef<
     {
-      name: string;
-      path: string;
+      id: number;
     } & PageInfo
   >({
-    name: form.getFieldValue("menuName"),
-    path,
+    id,
     ...pageInfo
   });
   const queryRequest = useCallback(() => {
@@ -68,14 +65,14 @@ export default function MenuManage() {
         route.children.forEach((childRoute) => {
           const obj: DataNode = {
             title: childRoute.name,
-            key: childRoute.path
+            key: childRoute.id
           };
           children.push(obj);
         });
       }
       const obj: DataNode = {
         title: route.name,
-        key: route.path
+        key: route.id
       };
       children.length > 0 && (obj.children = children);
       tree.push(obj);
@@ -164,9 +161,9 @@ export default function MenuManage() {
       }: {
         selectedNodes: DataNode[];
       } = info;
-      const node: string = selectedNodes[0].key as string;
-      setPath(node);
-      queryParmas.current.path = node;
+      const node: number = selectedNodes[0].key as number;
+      setId(node);
+      queryParmas.current.id = node;
       queryRequest();
     },
     [queryRequest]

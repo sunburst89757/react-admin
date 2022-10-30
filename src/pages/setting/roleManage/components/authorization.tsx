@@ -20,8 +20,6 @@ function Authorization({
     manual: true,
     cacheKey: "all",
     onSuccess: (res) => {
-      console.log("执行");
-
       if (res.success) {
         const tree: DataNode[] = [];
         res.data.forEach((route) => {
@@ -59,8 +57,6 @@ function Authorization({
   //    查询角色授权菜单
   useEffect(() => {
     runAsync(roleId).then((res) => {
-      console.log("下hi ing");
-
       if (res.success) {
         const checkedKeys: Key[] = [];
         res.data.forEach((menu) => {
@@ -83,6 +79,11 @@ function Authorization({
       destroyOnClose={true}
       onCancel={() => {
         toggle();
+      }}
+      cancelText="取消"
+      okText="提交"
+      onOk={() => {
+        console.log(1);
       }}
     >
       {loading ? (

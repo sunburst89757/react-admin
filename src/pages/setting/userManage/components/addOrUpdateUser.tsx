@@ -62,7 +62,8 @@ function AddOrUpdateUser({
     getRoleList({
       page: 1,
       pageSize: 10,
-      roleName: ""
+      roleName: "",
+      description: ""
     }).then((res) => {
       setRoleInfo(res.data.list);
     });

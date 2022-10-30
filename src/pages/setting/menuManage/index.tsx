@@ -157,8 +157,14 @@ export default function MenuManage() {
       align: "center"
     }
   ]);
-  const clickNode = useCallback(
-    (node: string) => {
+  const onSelect = useCallback(
+    (selectedKeys: React.Key[], info: any) => {
+      const {
+        selectedNodes
+      }: {
+        selectedNodes: DataNode[];
+      } = info;
+      const node: string = selectedNodes[0].key as string;
       setPath(node);
       queryParmas.current.path = node;
       queryRequest();
@@ -193,7 +199,13 @@ export default function MenuManage() {
   return (
     <div className="pageContainer">
       <LayoutTree>
-        <MyTree treeData={treeData} clickNode={clickNode}></MyTree>
+        <MyTree
+          treeData={treeData}
+          isSearch
+          otherOption={{
+            onSelect: onSelect
+          }}
+        ></MyTree>
       </LayoutTree>
       <MainLayout>
         <>

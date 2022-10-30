@@ -1,4 +1,4 @@
-import { Input, Tree } from "antd";
+import { Input, Tree, TreeProps } from "antd";
 import { DataNode } from "antd/es/tree";
 import React from "react";
 import { Key, useCallback, useMemo, useState } from "react";
@@ -32,14 +32,16 @@ const generateList = (data: DataNode[]) => {
 export const MyTree = React.memo(
   ({
     treeData,
-    clickNode,
+    isSearch = false,
     width = "220px",
-    highlightClassName = "highlightTree"
+    highlightClassName = "highlightTree",
+    otherOption
   }: {
     treeData: DataNode[];
-    clickNode: (info: string) => void;
     width?: string;
+    isSearch?: boolean;
     highlightClassName?: string;
+    otherOption?: Partial<TreeProps>;
   }) => {
     console.log("重新渲染");
     const [searchValue, setSearchValue] = useState("");
@@ -51,20 +53,6 @@ export const MyTree = React.memo(
     }, []);
     // 扁平化treeData 的 key title
     const dataList = useMemo(() => generateList(treeData), [treeData]);
-    // 选中事件
-    const onSelect = useCallback(
-      (selectedKeys: React.Key[], info: any) => {
-        const {
-          selectedNodes
-        }: {
-          selectedNodes: DataNode[];
-        } = info;
-        // console.log("selected", selectedKeys, selectedNodes[0]);
-        // console.log(info);
-        clickNode(selectedNodes[0].key as string);
-      },
-      [clickNode]
-    );
     // 搜索事件
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target;
@@ -114,17 +102,20 @@ export const MyTree = React.memo(
     }, [treeData, searchValue, highlightClassName]);
     return (
       <div style={{ width }}>
-        <Search
-          style={{ marginBottom: 8 }}
-          placeholder="Search"
-          onChange={onChange}
-        />
+        {isSearch && (
+          <Search
+            style={{ marginBottom: 8 }}
+            placeholder="Search"
+            onChange={onChange}
+          />
+        )}
         <Tree
-          treeData={highLightTreeData}
-          onSelect={onSelect}
+          treeData={isSearch ? highLightTreeData : treeData}
+          // onSelect={onSelect}
           expandedKeys={expandedKeys}
           autoExpandParent={autoExpandParent}
           onExpand={onExpand}
+          {...otherOption}
         />
       </div>
     );

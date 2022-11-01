@@ -12,8 +12,7 @@ import AddOrUpdateRole from "./components/addOrUpdateRole";
 import Authorization from "./components/authorization";
 export default function RoleManage() {
   const [form] = Form.useForm<{ roleName: string }>();
-  const onReset = useCallback(() => {}, []);
-  const onFinish = useCallback(() => {}, []);
+
   const [pageInfo, setPageInfo] = useState<PageInfo>({
     page: 1,
     pageSize: 10
@@ -125,6 +124,15 @@ export default function RoleManage() {
   const queryRoleList = useCallback(() => {
     run(queryParams.current);
   }, [run]);
+  const onReset = useCallback(() => {
+    queryParams.current.roleName = "";
+    queryRoleList();
+  }, [queryRoleList]);
+  const onFinish = useCallback(() => {
+    queryParams.current.roleName = form.getFieldValue("roleName");
+    // queryParams.current.description = form.
+    queryRoleList();
+  }, [queryRoleList, form]);
   const handleDelete = (id: number) => {
     deleteRole(id).then((res) => {
       if (res.success) {

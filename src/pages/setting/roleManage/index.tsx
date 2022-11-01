@@ -1,7 +1,7 @@
 import { useRequest, useToggle } from "ahooks";
 import { Button, Col, Form, Input, Row, Space, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { getRoleList, IRoleData, IRoleList } from "api/role";
+import { deleteRole, getRoleList, IRoleData, IRoleList } from "api/role";
 import { PageInfo } from "api/types";
 import { Icon } from "components/Icon";
 import { MainLayout } from "components/MainLayout";
@@ -106,7 +106,12 @@ export default function RoleManage() {
           >
             修改
           </Button>
-          <Button danger onClick={async () => {}}>
+          <Button
+            danger
+            onClick={() => {
+              handleDelete(record.id);
+            }}
+          >
             删除
           </Button>
         </Space>
@@ -120,6 +125,13 @@ export default function RoleManage() {
   const queryRoleList = useCallback(() => {
     run(queryParams.current);
   }, [run]);
+  const handleDelete = (id: number) => {
+    deleteRole(id).then((res) => {
+      if (res.success) {
+        queryRoleList();
+      }
+    });
+  };
   useEffect(() => {
     queryRoleList();
   }, [queryRoleList]);

@@ -44,3 +44,11 @@ export function createRole(data: IRoleInfo) {
     data
   });
 }
+
+export function deleteRole(id: number) {
+  return myRequest<any, any>({
+    url: `/role/delete/${id}`,
+    method: "delete",
+    successMsg: "删除成功"
+  });
+}

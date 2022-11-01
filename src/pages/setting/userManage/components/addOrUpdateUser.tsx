@@ -122,9 +122,10 @@ function AddOrUpdateUser({
           </Row>
           <Row gutter={16}>
             <Col span={24}>
-              <Form.Item label="菜单状态" name="isValid">
+              <Form.Item label="用户状态" name="isValid">
                 <Radio.Group
                   onChange={onChange}
+                  defaultValue={true}
                   value={form.getFieldValue("isValid")}
                 >
                   <Radio value={true}>正常</Radio>

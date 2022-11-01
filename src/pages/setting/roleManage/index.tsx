@@ -100,6 +100,7 @@ export default function RoleManage() {
             type="primary"
             onClick={() => {
               type.current = "update";
+              rowData.current = record;
               toggle();
             }}
           >
@@ -161,6 +162,7 @@ export default function RoleManage() {
                     type="primary"
                     icon={<Icon type="icon-add" />}
                     onClick={() => {
+                      type.current = "add";
                       toggle();
                     }}
                   >
@@ -175,6 +177,7 @@ export default function RoleManage() {
             isOpen={isOpen}
             toggle={toggle}
             cb={queryRoleList}
+            data={rowData.current}
           ></AddOrUpdateRole>
           <Table
             dataSource={dataList}

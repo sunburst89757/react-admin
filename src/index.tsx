@@ -1,5 +1,5 @@
 import zhCN from "antd/es/locale/zh_CN";
-import ConfigProvider from "antd/lib/config-provider";
+import { ConfigProvider } from "antd";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";

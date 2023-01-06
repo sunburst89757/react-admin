@@ -144,87 +144,85 @@ export default function RoleManage() {
     queryRoleList();
   }, [queryRoleList]);
   return (
-    <div className="pageContainer">
-      <MainLayout>
-        <>
-          <Form form={form} onReset={onReset} onFinish={onFinish}>
-            <Row gutter={16}>
-              <Col span={6}>
-                <Form.Item label="角色名称" name="roleName">
-                  <Input placeholder="请输入用户名"></Input>
-                </Form.Item>
-              </Col>
-              <Col span={6}>
-                <Form.Item>
-                  <Space>
-                    <Button
-                      type="primary"
-                      icon={<Icon type="icon-chaxun" />}
-                      htmlType="submit"
-                    >
-                      查询
-                    </Button>
-                    <Button
-                      type="primary"
-                      icon={<Icon type="icon-reset" />}
-                      htmlType="reset"
-                    >
-                      重置
-                    </Button>
-                  </Space>
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={6}>
-                <Form.Item>
+    <MainLayout>
+      <>
+        <Form form={form} onReset={onReset} onFinish={onFinish}>
+          <Row gutter={16}>
+            <Col span={6}>
+              <Form.Item label="角色名称" name="roleName">
+                <Input placeholder="请输入用户名"></Input>
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item>
+                <Space>
                   <Button
                     type="primary"
-                    icon={<Icon type="icon-add" />}
-                    onClick={() => {
-                      type.current = "add";
-                      toggle();
-                    }}
+                    icon={<Icon type="icon-chaxun" />}
+                    htmlType="submit"
                   >
-                    添加
+                    查询
                   </Button>
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form>
-          <AddOrUpdateRole
-            type={type.current}
-            isOpen={isOpen}
-            toggle={toggle}
-            cb={queryRoleList}
-            data={rowData.current}
-          ></AddOrUpdateRole>
-          <Table
-            dataSource={dataList}
-            columns={columns.current}
-            size="small"
-            bordered
-            rowKey={(record) => record.id}
-            pagination={{
-              position: ["bottomRight"],
-              showQuickJumper: true,
-              defaultCurrent: 1,
-              total: total,
-              onChange: onChange,
-              pageSize: pageInfo.pageSize,
-              pageSizeOptions: [1, 2, 5],
-              showSizeChanger: true,
-              showTotal: (total: number) => `总计${total}`
-            }}
-            loading={loading}
-          />
-          <Authorization
-            open={isShow}
-            toggle={toggleRole}
-            roleId={rowId.current}
-          ></Authorization>
-        </>
-      </MainLayout>
-    </div>
+                  <Button
+                    type="primary"
+                    icon={<Icon type="icon-reset" />}
+                    htmlType="reset"
+                  >
+                    重置
+                  </Button>
+                </Space>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={6}>
+              <Form.Item>
+                <Button
+                  type="primary"
+                  icon={<Icon type="icon-add" />}
+                  onClick={() => {
+                    type.current = "add";
+                    toggle();
+                  }}
+                >
+                  添加
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+        <AddOrUpdateRole
+          type={type.current}
+          isOpen={isOpen}
+          toggle={toggle}
+          cb={queryRoleList}
+          data={rowData.current}
+        ></AddOrUpdateRole>
+        <Table
+          dataSource={dataList}
+          columns={columns.current}
+          size="small"
+          bordered
+          rowKey={(record) => record.id}
+          pagination={{
+            position: ["bottomRight"],
+            showQuickJumper: true,
+            defaultCurrent: 1,
+            total: total,
+            onChange: onChange,
+            pageSize: pageInfo.pageSize,
+            pageSizeOptions: [1, 2, 5],
+            showSizeChanger: true,
+            showTotal: (total: number) => `总计${total}`
+          }}
+          loading={loading}
+        />
+        <Authorization
+          open={isShow}
+          toggle={toggleRole}
+          roleId={rowId.current}
+        ></Authorization>
+      </>
+    </MainLayout>
   );
 }

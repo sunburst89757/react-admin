@@ -194,7 +194,7 @@ export default function MenuManage() {
   }, [queryRequest]);
 
   return (
-    <div className="pageContainer">
+    <>
       <LayoutTree>
         <MyTree
           treeData={treeData}
@@ -250,6 +250,6 @@ export default function MenuManage() {
           />
         </>
       </MainLayout>
-    </div>
+    </>
   );
 }

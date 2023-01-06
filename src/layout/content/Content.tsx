@@ -9,7 +9,9 @@ export function MyContent() {
     <Content className="container">
       <MyTag></MyTag>
       <div className={style.container}>
-        <Outlet></Outlet>
+        <div className="pageContainer">
+          <Outlet></Outlet>
+        </div>
       </div>
     </Content>
   );

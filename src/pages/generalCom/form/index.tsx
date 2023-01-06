@@ -1,3 +1,5 @@
+import { MainLayout } from "components/MainLayout";
+
 export default function Form() {
-  return <div>form</div>;
+  return <MainLayout>form</MainLayout>;
 }

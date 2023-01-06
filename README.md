@@ -1,6 +1,6 @@
 # react-ts-admin
 
-这是一个利用 react18 + typescript 实现的 Web 后台管理系统模板,后台基于[react-admin-backend](https://github.com/sunburst89757/react-admin-backend),由 koa typescript 实现。
+这是一个利用 react18 + typescript 实现的 Web [后台管理系统模板](http://47.98.204.143:3000/login),后台基于[react-admin-backend](https://github.com/sunburst89757/react-admin-backend),由 koa typescript 实现。
 
 ## 特性
 
@@ -9,6 +9,7 @@
 - redux-toolkit: 全局状态管理工具
 - react-router-dom6: 路由管理工具
 - css module 和 tailwind css 做样式管理方案
+- vite 新一代构建工具
 
 ## 准备
 
@@ -47,3 +48,14 @@
   ```
   npm run commit
   ```
+
+## 使用规则
+
+### 路由新增原则
+
+1. 在 pages/xxx/xxx/index.tsx 下新增路由组件 使用默认导出
+2. router/modules 下的二级路由添加 路由组件对应的 pages 下的路径： xxx/xxx
+3. 后端服务器上添加当前用户允许访问的菜单路由
+   系统设置/菜单管理 添加即可
+
+   ![](/src/assets/readme/menuManage.png)

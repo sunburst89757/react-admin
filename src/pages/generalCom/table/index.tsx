@@ -1,3 +1,5 @@
+import { MainLayout } from "components/MainLayout";
+
 export default function Table() {
-  return <div>table组件</div>;
+  return <MainLayout>table</MainLayout>;
 }

@@ -1,4 +1,5 @@
 import { login } from "api/user";
+import { MainLayout } from "components/MainLayout";
 import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 
 export const dashLoader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -10,5 +11,5 @@ export const dashLoader = async ({ params, request }: LoaderFunctionArgs) => {
 export default function Dashboard() {
   const res = useLoaderData();
   console.log(res);
-  return <div>这时首页</div>;
+  return <MainLayout>首页</MainLayout>;
 }

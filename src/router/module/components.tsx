@@ -23,6 +23,10 @@ const router: RouteObject[] = [
       {
         path: "tab",
         element: <LazyLoad path="generalCom/tab"></LazyLoad>
+      },
+      {
+        path: "uploader",
+        element: <LazyLoad path="generalCom/upload"></LazyLoad>
       }
     ]
   }

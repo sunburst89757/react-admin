@@ -1,3 +1,5 @@
+import { MainLayout } from "components/MainLayout";
+
 export default function Tab() {
-  return <div>tab</div>;
+  return <MainLayout>tab</MainLayout>;
 }

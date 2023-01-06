@@ -1,0 +1,15 @@
+{
+  "configurations": [
+    {
+      "name": "Launch Edge",
+      "request": "launch",
+      "type": "msedge",
+      "url": "http://localhost:5173",
+      "runtimeExecutable": "canary",
+      "userDataDir": false,
+      "runtimeArgs": [" --auto-open-devtools-for-tabs "],
+      "webRoot": "${workspaceFolder}"
+      //   "sourceMaps": false
+    }
+  ]
+}

@@ -17,8 +17,8 @@ export const AuthRouter = ({ children }: { children: JSX.Element }) => {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const { roleId } = useAppSelector((state) => state.user.userInfo);
-  const token = cache.getItem("token");
-  if (!token) return <Navigate to="/login"></Navigate>;
+  const access_token = cache.getItem("access_token");
+  if (!access_token) return <Navigate to="/login"></Navigate>;
   // 初始登录 获取可访问的路由
   if (authRoutes.length === 0) {
     generateAuthMenu(roleId, dispatch);

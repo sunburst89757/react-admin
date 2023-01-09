@@ -1,11 +1,11 @@
 import { RequestConfig } from "./../types";
 import { message } from "antd";
 import { refreshToken } from "api/user";
+import router from "../../router";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { ImyRequest, IMyResponse } from "service";
 import { errorHandle } from "service/utils/errorhandle";
 import { cache } from "utils/cache";
-import { debug } from "console";
 let isRefresh = false;
 let request: Function[] = [];
 export class MyRequest {
@@ -14,9 +14,9 @@ export class MyRequest {
     this.service = axios.create(config);
     this.service.interceptors.request.use(
       (config: AxiosRequestConfig) => {
-        const token = cache.getItem("token");
-        if (token) {
-          config.headers!.Authorization = token;
+        const access_token = cache.getItem("access_token");
+        if (access_token) {
+          config.headers!.Authorization = access_token;
         }
 
         // debugger;
@@ -46,17 +46,18 @@ export class MyRequest {
         if (data.code !== 200 && res?.data.code !== 401) {
           return errorHandle(data.code, data.message);
         } else if (data.code === 401) {
-          const userId = cache.getItem("userId");
+          const refresh_token = cache.getItem("refresh_token");
           // token失效
           if (!isRefresh) {
             isRefresh = true;
-            return refreshToken({ userId })
+            return refreshToken({ refresh_token })
               .then(({ data }) => {
-                cache.setItem("token", data.token);
+                cache.setItem("access_token", data.access_token);
                 // 执行中断请求 不能直接传递res.config做参数 会直接报错 ，并且要直接return这个promise 否则原来的中断请求会拿不到返回值
                 request.forEach((fn) => {
                   fn();
                 });
+                request = [];
                 return this.request({
                   url: config.url,
                   method: config.method,
@@ -65,7 +66,10 @@ export class MyRequest {
                 });
               })
               .catch((err) => {
-                console.log("登录状态过期重新登录");
+                cache.clear();
+                request = [];
+                message.error("登录状态已过期请重新登录");
+                router.navigate("/login");
               })
               .finally(() => {
                 isRefresh = false;

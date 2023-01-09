@@ -16,14 +16,15 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     updateUserInfo: (state, action: PayloadAction<Res>) => {
-      const { token, userId, username, roleId } = action.payload;
-      state.token = token;
+      const { access_token, refresh_token, userId, username, roleId } =
+        action.payload;
+      state.token = access_token;
       state.userInfo.userId = userId;
       // 用户角色本来应该从action.payload里传递，新项目需要接口更改
       state.userInfo.roleId = roleId;
       state.userInfo.username = username;
-      cache.setItem("token", token);
-      cache.setItem("userId", userId);
+      cache.setItem("access_token", access_token);
+      cache.setItem("refresh_token", refresh_token);
     },
     resetUser: () => initialState
   }

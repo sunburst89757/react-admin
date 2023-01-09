@@ -7,7 +7,8 @@ export interface IUser {
   password: string;
 }
 export interface Res {
-  token: string;
+  access_token: string;
+  refresh_token: string;
   username: string;
   userId: number;
   roleId: number;
@@ -78,10 +79,10 @@ export function addUser(data: Partial<IUserList>) {
   });
 }
 
-export function refreshToken(data: { userId: number }) {
-  return myRequest<any, { token: string }>({
+export function refreshToken(data: { refresh_token: string }) {
+  return myRequest<any, { access_token: string }>({
     url: "/user/refreshToken",
-    method: "get",
+    method: "post",
     data
   });
 }

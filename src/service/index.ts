@@ -2,7 +2,7 @@ import { config as instanceConfig } from "./config";
 import { MyRequest } from "./request/request";
 import { RequestConfig } from "./types";
 // 完整的接口返回成功的话一般返回以下四个参数
-interface IMyResponse<T> {
+export interface IMyResponse<T = any> {
   code: number;
   message: string;
   success: boolean;

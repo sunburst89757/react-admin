@@ -23,6 +23,7 @@ const userSlice = createSlice({
       state.userInfo.roleId = roleId;
       state.userInfo.username = username;
       cache.setItem("token", token);
+      cache.setItem("userId", userId);
     },
     resetUser: () => initialState
   }

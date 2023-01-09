@@ -1,10 +1,10 @@
 import { AxiosRequestConfig, AxiosResponse } from "axios";
-export interface Interceptors {
+export interface Interceptors<T = AxiosResponse> {
   requestSuccess?: (config: AxiosRequestConfig) => AxiosRequestConfig;
   requestErr?: (err: any) => any;
-  responseSuccess?: <T = AxiosResponse>(res: T) => T;
+  responseSuccess?: (res: T) => T;
   responseErr?: (err: any) => any;
 }
-export interface RequestConfig extends AxiosRequestConfig {
-  interceptors?: Interceptors;
+export interface RequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
+  interceptors?: Interceptors<T>;
 }

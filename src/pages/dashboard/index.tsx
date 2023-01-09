@@ -1,15 +1,22 @@
-import { login } from "api/user";
+import { Button } from "antd";
+import { getMenuList } from "api/menu";
+import { getUserList } from "api/user";
 import { MainLayout } from "components/MainLayout";
-import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 
-export const dashLoader = async ({ params, request }: LoaderFunctionArgs) => {
-  console.log(request, "request");
-  console.log(params, "params");
-
-  return await login({ username: "tyz", password: "729" });
-};
 export default function Dashboard() {
-  const res = useLoaderData();
-  console.log(res);
-  return <MainLayout>首页</MainLayout>;
+  const onClick = () => {
+    getUserList({ page: 1, pageSize: 10, username: "" }).then((res) => {
+      console.log(res.data);
+    });
+    getMenuList({ page: 1, pageSize: 10, id: 1 }).then((res) => {
+      console.log(res.data);
+    });
+  };
+  return (
+    <MainLayout>
+      <>
+        <Button onClick={onClick}>测试</Button>
+      </>
+    </MainLayout>
+  );
 }

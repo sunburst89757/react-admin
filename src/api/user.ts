@@ -77,3 +77,11 @@ export function addUser(data: Partial<IUserList>) {
     data
   });
 }
+
+export function refreshToken(data: { userId: number }) {
+  return myRequest<any, { token: string }>({
+    url: "/user/refreshToken",
+    method: "get",
+    data
+  });
+}

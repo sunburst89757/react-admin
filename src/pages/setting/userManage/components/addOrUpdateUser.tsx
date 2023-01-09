@@ -114,7 +114,9 @@ function AddOrUpdateUser({
                   onChange={handleChange}
                 >
                   {roleInfo?.map((role) => (
-                    <Option value={role.id}>{role.roleName}</Option>
+                    <Option value={role.id} key={role.id}>
+                      {role.roleName}
+                    </Option>
                   ))}
                 </Select>
               </Form.Item>

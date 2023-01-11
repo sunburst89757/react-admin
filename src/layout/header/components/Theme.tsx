@@ -1,7 +1,8 @@
-import { Divider, Drawer, Switch } from "antd";
+import { Divider, Drawer } from "antd";
 import { DarkMode } from "components/DarkMode";
 import { Icon } from "components/Icon";
 import { useState } from "react";
+import { Compact } from "./Compact";
 import { GrayOrColorWeak } from "./GrayOrColorWeak";
 export const Theme = () => {
   const [open, setOpen] = useState(false);
@@ -28,7 +29,7 @@ export const Theme = () => {
           <GrayOrColorWeak />
           <div className="flex justify-between items-center">
             <span> 紧凑模式</span>
-            <Switch />
+            <Compact />
           </div>
         </div>
         <Divider>定制主题</Divider>

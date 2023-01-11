@@ -1,10 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "store";
 type ITheme = {
   isDefault: boolean;
   isDark: boolean;
   darkColor: string;
-  isCompact: boolean;
+  size: "small" | "middle" | "large";
   isColorWeak: boolean;
   colorWeak: string;
   isGray: boolean;
@@ -14,7 +14,7 @@ const initialState: ITheme = {
   isDefault: true,
   isDark: false,
   darkColor: "",
-  isCompact: false,
+  size: "middle",
   isColorWeak: false,
   colorWeak: "",
   isGray: false,
@@ -24,8 +24,13 @@ export {};
 const themeSlice = createSlice({
   name: "theme",
   initialState,
-  reducers: {}
+  reducers: {
+    changeCompact: (state, action: PayloadAction<ITheme["size"]>) => {
+      state.size = action.payload;
+    }
+  }
 });
 
 export const selectTheme = (state: RootState) => state.theme;
+export const { changeCompact } = themeSlice.actions;
 export const themeReducer = themeSlice.reducer;

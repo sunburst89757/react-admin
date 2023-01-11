@@ -4,6 +4,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { menuReducer } from "./module/menu.store";
 import { tagReducer } from "./module/tag.store";
+import { themeReducer } from "./module/theme.strore";
 import { userReducer } from "./module/user.store";
 const persistConfig = {
   key: "root",
@@ -14,7 +15,8 @@ const persistedReducer = persistReducer(
   combineReducers({
     user: userReducer,
     menu: menuReducer,
-    tag: tagReducer
+    tag: tagReducer,
+    theme: themeReducer
   })
 );
 export const store = configureStore({

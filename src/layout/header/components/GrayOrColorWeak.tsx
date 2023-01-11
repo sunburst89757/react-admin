@@ -1,7 +1,7 @@
 import { Switch } from "antd";
-import { useState } from "react";
+import { useState, useEffect, memo } from "react";
 
-export const GrayOrColorWeak = () => {
+export const GrayOrColorWeak = memo(() => {
   const [isGray, setIsGray] = useState(false);
   const [isColorWeak, setIsColorWeak] = useState(false);
   const changeTheme = (type: "Gray" | "ColorWeak", checked: boolean) => {
@@ -13,6 +13,12 @@ export const GrayOrColorWeak = () => {
       checked && setIsGray(false);
     }
   };
+  useEffect(() => {
+    const body = document.documentElement;
+    if (isGray) body.setAttribute("style", "filter:grayscale(1)");
+    else if (isColorWeak) body.setAttribute("style", "filter:invert(80%)");
+    else body.setAttribute("style", "");
+  }, [isGray, isColorWeak]);
   return (
     <>
       <div className="flex justify-between items-center">
@@ -35,4 +41,4 @@ export const GrayOrColorWeak = () => {
       </div>
     </>
   );
-};
+});

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { cache } from "utils/cache";
 import { logout } from "../../api/user";
 import { useAppSelector } from "../../store/types";
+import { Theme } from "./components/Theme";
 import style from "./Header.module.scss";
 const { Header } = Layout;
 type propType = {
@@ -77,6 +78,7 @@ export function MyHeader({ isCollapse, onClick }: propType) {
             通知详情
           </Button>
         </div>
+        <Theme></Theme>
         <Dropdown overlay={menu.current} trigger={["click"]} arrow>
           <a onClick={(e) => e.preventDefault()}>
             <Space className={style.userInfo}>{username}</Space>

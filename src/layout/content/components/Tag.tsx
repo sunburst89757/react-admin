@@ -1,6 +1,6 @@
 import { useUpdateEffect } from "ahooks";
 import { Tag } from "antd";
-import { Icon } from "components/Icon";
+import { Icon } from "components/Icon/Icon";
 import { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addTag, deleteTag, ITag } from "store/module/tag.store";

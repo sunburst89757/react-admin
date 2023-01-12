@@ -1,6 +1,6 @@
 import { Divider, Drawer } from "antd";
-import { DarkMode } from "components/DarkMode";
-import { Icon } from "components/Icon";
+import { DarkMode } from "components/DarkMode/DarkMode";
+import { Icon } from "components/Icon/Icon";
 import { useState } from "react";
 import { Compact } from "./Compact";
 import { GrayOrColorWeak } from "./GrayOrColorWeak";

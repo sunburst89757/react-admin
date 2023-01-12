@@ -3,8 +3,8 @@ import { Button, Col, Form, Input, Row, Space, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { deleteRole, getRoleList, IRoleData, IRoleList } from "api/role";
 import { PageInfo } from "api/types";
-import { Icon } from "components/Icon";
-import { MainLayout } from "components/MainLayout";
+import { Icon } from "components/Icon/Icon";
+import { MainLayout } from "components/MainLayout/MainLayout";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { transferTime } from "utils/handleTime";

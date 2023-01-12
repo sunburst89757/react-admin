@@ -1,6 +1,6 @@
 import { useRequest } from "ahooks";
 import { Modal, Spin } from "antd";
-import { MyTree } from "components/MyTree";
+import { MyTree } from "components/MyTree/MyTree";
 import React, { Key, useEffect, useRef, useState } from "react";
 import { DataNode, TreeProps } from "antd/lib/tree";
 import { getMenuListByRoleId } from "api/user";

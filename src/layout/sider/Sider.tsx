@@ -1,6 +1,6 @@
 import { useUpdateEffect } from "ahooks";
 import { Layout, Menu, MenuProps } from "antd";
-import { Icon } from "components/Icon";
+import { Icon } from "components/Icon/Icon";
 import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "store/types";

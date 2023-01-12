@@ -1,4 +1,4 @@
-import { MainLayout } from "components/MainLayout";
+import { MainLayout } from "components/MainLayout/MainLayout";
 import { useState } from "react";
 import Uploader from "react-simple-upload";
 import { UploadFile } from "react-simple-upload/dist/types";

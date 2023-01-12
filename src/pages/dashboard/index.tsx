@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import { getMenuList } from "api/menu";
 import { getUserList } from "api/user";
-import { MainLayout } from "components/MainLayout";
+import { MainLayout } from "components/MainLayout/MainLayout";
 
 export default function Dashboard() {
   const onClick = () => {

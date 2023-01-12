@@ -1,7 +1,7 @@
 import { Switch } from "antd";
 import { memo, useEffect, useState } from "react";
-import { Icon } from "./Icon";
-import dark from "../style/dark.scss?inline";
+import { Icon } from "../Icon/Icon";
+import dark from "../../style/dark.scss?inline";
 export const DarkMode = memo(() => {
   const [checked, setChecked] = useState(false);
   const onClick = (checked: boolean) => {

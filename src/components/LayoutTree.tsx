@@ -1,3 +1,4 @@
+import "./LayoutTree.scss";
 export const LayoutTree = ({
   children,
   width = "250px"
@@ -5,9 +6,5 @@ export const LayoutTree = ({
   children: JSX.Element;
   width?: string;
 }) => {
-  return (
-    <div className={`mr-3 bg-white w-[${width}] h-[100%] p-3 overflow-auto`}>
-      {children}
-    </div>
-  );
+  return <div className={` w-[${width}] layoutTree`}>{children}</div>;
 };

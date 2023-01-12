@@ -1,1 +1,19 @@
 @import "antd/dist/antd.dark.css";
+/* 自定义 antd 暗黑模式样式 */
+$dark-main-bg-color: #141414;
+$dark-bg-color: #1f1f1f;
+$dark-border-color: #414243;
+
+body {
+  background-color: $dark-main-bg-color !important;
+  .mainLayout {
+    background-color: $dark-bg-color !important;
+  }
+  .layoutTree {
+    background-color: $dark-bg-color !important;
+  }
+  .tagContainer {
+    background-color: $dark-bg-color !important;
+    border-color: $dark-border-color !important;
+  }
+}

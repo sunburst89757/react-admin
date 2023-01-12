@@ -5,7 +5,7 @@ import { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addTag, deleteTag, ITag } from "store/module/tag.store";
 import { useAppDispatch, useAppSelector } from "store/types";
-import style from "./tags.module.scss";
+import "./tags.scss";
 const isIncludeTag = (url: string, tags: ITag[]) =>
   tags.findIndex((tag) => tag.url === url) >= 0;
 export const MyTag = () => {
@@ -45,14 +45,14 @@ export const MyTag = () => {
     }
   }, [location.pathname]);
   return (
-    <div className={style.tagContainer}>
-      <Icon type="icon-xiangzuojiantou" className={style.icon}></Icon>
+    <div className="tagContainer">
+      <Icon type="icon-xiangzuojiantou" className="icon"></Icon>
       {tags.map((tag) => {
         return (
           <Tag
             key={tag.name}
             closable={!tag.fixed}
-            className={style.tag}
+            className="cursor-pointer"
             onClose={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
               handleClose(tag.url, e);
             }}
@@ -65,7 +65,7 @@ export const MyTag = () => {
           </Tag>
         );
       })}
-      <Icon type="icon-xiangyoujiantou" className={style.icon}></Icon>
+      <Icon type="icon-xiangyoujiantou" className="icon"></Icon>
     </div>
   );
 };

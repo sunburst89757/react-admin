@@ -3,12 +3,10 @@
   align-items: center;
   height: 7%;
   background-color: #fff;
-  border-bottom: 3px solid #f0f2f5;
+  border: 1px solid #f0f2f5;
+  border-right: 0;
 }
 
-.tag {
-  cursor: pointer;
-}
 .icon {
   padding: 0 7px;
   color: #dfdfdf;

@@ -15,7 +15,9 @@ export default function Dashboard() {
   return (
     <MainLayout>
       <>
-        <Button onClick={onClick}>测试</Button>
+        <Button onClick={onClick} type="primary">
+          测试
+        </Button>
       </>
     </MainLayout>
   );

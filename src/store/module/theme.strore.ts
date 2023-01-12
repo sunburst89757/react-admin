@@ -5,9 +5,8 @@ type ITheme = {
   isDark: boolean;
   darkColor: string;
   size: "small" | "middle" | "large";
-  isColorWeak: boolean;
+  grayOrColorWeak: "gray" | "colorWeak" | "";
   colorWeak: string;
-  isGray: boolean;
   grayColor: string;
 };
 const initialState: ITheme = {
@@ -15,10 +14,9 @@ const initialState: ITheme = {
   isDark: false,
   darkColor: "",
   size: "middle",
-  isColorWeak: false,
-  colorWeak: "",
-  isGray: false,
-  grayColor: ""
+  grayOrColorWeak: "",
+  colorWeak: "80%",
+  grayColor: "1"
 };
 export {};
 const themeSlice = createSlice({
@@ -27,10 +25,20 @@ const themeSlice = createSlice({
   reducers: {
     changeCompact: (state, action: PayloadAction<ITheme["size"]>) => {
       state.size = action.payload;
+    },
+    changeGrayOrColorWeak: (
+      state,
+      action: PayloadAction<ITheme["grayOrColorWeak"]>
+    ) => {
+      state.grayOrColorWeak = action.payload;
+    },
+    changeDark: (state) => {
+      state.isDark = !state.isDark;
     }
   }
 });
 
 export const selectTheme = (state: RootState) => state.theme;
-export const { changeCompact } = themeSlice.actions;
+export const { changeCompact, changeGrayOrColorWeak, changeDark } =
+  themeSlice.actions;
 export const themeReducer = themeSlice.reducer;

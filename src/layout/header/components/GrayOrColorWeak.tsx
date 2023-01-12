@@ -1,24 +1,32 @@
 import { Switch } from "antd";
 import { useState, useEffect, memo } from "react";
+import { changeGrayOrColorWeak } from "store/module/theme.strore";
+import { useAppDispatch } from "store/types";
 
 export const GrayOrColorWeak = memo(() => {
+  const dispatch = useAppDispatch();
   const [isGray, setIsGray] = useState(false);
   const [isColorWeak, setIsColorWeak] = useState(false);
   const changeTheme = (type: "Gray" | "ColorWeak", checked: boolean) => {
     if (type === "Gray") {
       setIsGray(checked);
-      checked && setIsColorWeak(false);
+      if (checked) {
+        setIsColorWeak(false);
+        dispatch(changeGrayOrColorWeak("gray"));
+      }
     } else {
       setIsColorWeak(checked);
-      checked && setIsGray(false);
+      if (checked) {
+        setIsGray(false);
+        dispatch(changeGrayOrColorWeak("colorWeak"));
+      }
     }
   };
   useEffect(() => {
-    const body = document.documentElement;
-    if (isGray) body.setAttribute("style", "filter:grayscale(1)");
-    else if (isColorWeak) body.setAttribute("style", "filter:invert(80%)");
-    else body.setAttribute("style", "");
-  }, [isGray, isColorWeak]);
+    if (!isGray && !isColorWeak) {
+      dispatch(changeGrayOrColorWeak(""));
+    }
+  }, [isGray, isColorWeak, dispatch]);
   return (
     <>
       <div className="flex justify-between items-center">

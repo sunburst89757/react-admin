@@ -1,23 +1,15 @@
 import { Switch } from "antd";
-import { memo, useEffect, useState } from "react";
+import { memo, useState } from "react";
 import { Icon } from "../Icon/Icon";
-import dark from "../../style/dark.scss?inline";
+import { useAppDispatch } from "store/types";
+import { changeDark } from "store/module/theme.strore";
 export const DarkMode = memo(() => {
   const [checked, setChecked] = useState(false);
+  const dispatch = useAppDispatch();
   const onClick = (checked: boolean) => {
     setChecked(checked);
+    dispatch(changeDark());
   };
-  useEffect(() => {
-    if (checked) {
-      const style = document.createElement("style");
-      style.id = "dark";
-      style.innerHTML = dark;
-      let head = document.getElementsByTagName("head")[0];
-      head.appendChild(style);
-    } else {
-      document.getElementById("dark")?.remove();
-    }
-  }, [checked]);
   return (
     <>
       <Switch

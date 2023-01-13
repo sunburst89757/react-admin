@@ -20,14 +20,15 @@ export const useTheme = () => {
     }
   };
   const changeDark = () => {
-    if (isDark) {
+    const darkEle = document.getElementById("dark");
+    if (isDark && !darkEle) {
       const style = document.createElement("style");
       style.id = "dark";
       style.innerHTML = dark;
       let head = document.getElementsByTagName("head")[0];
       head.appendChild(style);
     } else {
-      document.getElementById("dark")?.remove();
+      darkEle?.remove();
     }
   };
   changeGrayOrColorWeak();

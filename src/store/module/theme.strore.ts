@@ -18,7 +18,6 @@ const initialState: ITheme = {
   colorWeak: "80%",
   grayColor: "1"
 };
-export {};
 const themeSlice = createSlice({
   name: "theme",
   initialState,

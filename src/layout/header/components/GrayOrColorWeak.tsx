@@ -1,12 +1,17 @@
 import { Switch } from "antd";
 import { useState, useEffect, memo } from "react";
 import { changeGrayOrColorWeak } from "store/module/theme.strore";
-import { useAppDispatch } from "store/types";
+import { useAppDispatch, useAppSelector } from "store/types";
 
 export const GrayOrColorWeak = memo(() => {
   const dispatch = useAppDispatch();
-  const [isGray, setIsGray] = useState(false);
-  const [isColorWeak, setIsColorWeak] = useState(false);
+  const { grayOrColorWeak } = useAppSelector((state) => state.theme);
+  const [isGray, setIsGray] = useState(
+    grayOrColorWeak === "gray" ? true : false
+  );
+  const [isColorWeak, setIsColorWeak] = useState(
+    grayOrColorWeak === "colorWeak" ? true : false
+  );
   const changeTheme = (type: "Gray" | "ColorWeak", checked: boolean) => {
     if (type === "Gray") {
       setIsGray(checked);

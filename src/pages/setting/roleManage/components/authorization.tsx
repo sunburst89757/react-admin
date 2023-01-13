@@ -5,6 +5,8 @@ import React, { Key, useEffect, useRef, useState } from "react";
 import { DataNode, TreeProps } from "antd/lib/tree";
 import { getMenuListByRoleId } from "api/user";
 import { updateRoleMenuList } from "api/role";
+import { generateAuthMenu } from "utils/generateAuthMenu";
+import { useAppDispatch, useAppSelector } from "store/types";
 
 function Authorization({
   open,
@@ -15,6 +17,8 @@ function Authorization({
   toggle: () => void;
   roleId: number;
 }) {
+  const dispatch = useAppDispatch();
+  const currentRoleId = useAppSelector((state) => state.user.userInfo.roleId);
   const [treeData, settreeData] = useState<DataNode[]>();
   const [checkedKeys, setCheckedKeys] = useState<Key[]>([""]);
   const { run } = useRequest(getMenuListByRoleId, {
@@ -63,8 +67,12 @@ function Authorization({
     updateRoleMenuList({
       roleId,
       menuIds: checkedParams.current
-    }).then((res) => {
+    }).then(async (res) => {
       if (res.success) {
+        // 只有更新的角色菜单 和 当前登录的角色是相同的时候才会立刻更新菜单
+        if (currentRoleId === roleId) {
+          await generateAuthMenu(roleId, dispatch);
+        }
         toggle();
       }
     });

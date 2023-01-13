@@ -16,7 +16,14 @@ import { transferTime } from "utils/handleTime";
 import AddOrUpdateMenu from "./components/addOrUpdateMenu";
 export type MenuDataType = Pick<
   Menu,
-  "name" | "icon" | "sort" | "createdAt" | "updatedAt" | "isValid" | "id"
+  | "name"
+  | "icon"
+  | "sort"
+  | "createdAt"
+  | "updatedAt"
+  | "isValid"
+  | "id"
+  | "path"
 >;
 
 export default function MenuManage() {
@@ -96,6 +103,12 @@ export default function MenuManage() {
       title: "图标",
       key: "icon",
       render: (_, record) => <Icon type={record.icon}></Icon>,
+      align: "center"
+    },
+    {
+      title: "路由",
+      key: "path",
+      dataIndex: "path",
       align: "center"
     },
     {

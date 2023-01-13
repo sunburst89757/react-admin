@@ -28,7 +28,7 @@ export const CustomTheme = memo(() => {
       <Button type="primary" icon={<Icon type="icon-reset" />} onClick={reset}>
         重置主题色
       </Button>
-      {Object.keys(color).map((type, index) => {
+      {Object.keys(color).map((type) => {
         return (
           <div key={type} className="flex justify-center align-center flex-col">
             <span className="mb-2">{type}</span>

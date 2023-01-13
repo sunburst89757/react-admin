@@ -18,7 +18,8 @@ const menuSlice = createSlice({
       state.menuBackend = action.payload;
     },
     generateAuthRoutes: (state, action: PayloadAction<IAuthRoute[]>) => {
-      state.authRoutes = [...new Set([...state.authRoutes, ...action.payload])];
+      // state.authRoutes = [...new Set([...state.authRoutes, ...action.payload])];
+      state.authRoutes = action.payload;
     },
     resetMenu: () => initialState
   }

@@ -8,6 +8,13 @@ type ITheme = {
   grayOrColorWeak: "gray" | "colorWeak" | "";
   colorWeak: string;
   grayColor: string;
+  themeColor: {
+    primaryColor: string;
+    errorColor: string;
+    warningColor: string;
+    successColor: string;
+    infoColor: string;
+  };
 };
 const initialState: ITheme = {
   isDefault: true,
@@ -16,7 +23,14 @@ const initialState: ITheme = {
   size: "middle",
   grayOrColorWeak: "",
   colorWeak: "80%",
-  grayColor: "1"
+  grayColor: "1",
+  themeColor: {
+    primaryColor: "#1890ff",
+    errorColor: "#ff4d4f",
+    warningColor: "#faad14",
+    successColor: "#52c41a",
+    infoColor: "#1890ff"
+  }
 };
 const themeSlice = createSlice({
   name: "theme",
@@ -33,11 +47,23 @@ const themeSlice = createSlice({
     },
     changeDark: (state) => {
       state.isDark = !state.isDark;
+    },
+    changeThemeColor: (state, action: PayloadAction<ITheme["themeColor"]>) => {
+      state.themeColor = action.payload;
+    },
+    resetThemeColor: (state) => {
+      state.themeColor = initialState.themeColor;
     }
   }
 });
 
 export const selectTheme = (state: RootState) => state.theme;
-export const { changeCompact, changeGrayOrColorWeak, changeDark } =
-  themeSlice.actions;
+export const {
+  changeCompact,
+  changeGrayOrColorWeak,
+  changeDark,
+  changeThemeColor,
+  resetThemeColor
+} = themeSlice.actions;
 export const themeReducer = themeSlice.reducer;
+export const initialThemeColor = initialState.themeColor;

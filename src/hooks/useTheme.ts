@@ -1,10 +1,10 @@
+import { ConfigProvider } from "antd";
 import { useCallback, useEffect } from "react";
 import { useAppSelector } from "store/types";
 import dark from "../style/dark.scss?inline";
 export const useTheme = () => {
-  const { grayOrColorWeak, isDark, grayColor, colorWeak } = useAppSelector(
-    (state) => state.theme
-  );
+  const { grayOrColorWeak, isDark, grayColor, colorWeak, themeColor } =
+    useAppSelector((state) => state.theme);
   const changeGrayOrColorWeak = useCallback(() => {
     const body = document.documentElement;
     switch (grayOrColorWeak) {
@@ -30,11 +30,18 @@ export const useTheme = () => {
       document.getElementById("dark")?.remove();
     }
   }, [isDark]);
-
+  const changeThemeColor = useCallback(() => {
+    ConfigProvider.config({
+      theme: themeColor
+    });
+  }, [themeColor]);
   useEffect(() => {
     changeDark();
   }, [isDark, changeDark]);
   useEffect(() => {
     changeGrayOrColorWeak();
   }, [grayOrColorWeak, changeGrayOrColorWeak]);
+  useEffect(() => {
+    changeThemeColor();
+  }, [changeThemeColor, themeColor]);
 };

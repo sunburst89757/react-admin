@@ -3,6 +3,7 @@ import { DarkMode } from "components/DarkMode/DarkMode";
 import { Icon } from "components/Icon/Icon";
 import { useState } from "react";
 import { Compact } from "./Compact";
+import { CustomTheme } from "./CustomTheme";
 import { GrayOrColorWeak } from "./GrayOrColorWeak";
 export const Theme = () => {
   const [open, setOpen] = useState(false);
@@ -32,7 +33,8 @@ export const Theme = () => {
             <Compact />
           </div>
         </div>
-        <Divider>定制主题</Divider>
+        <Divider>主题色定制</Divider>
+        <CustomTheme />
       </Drawer>
     </>
   );

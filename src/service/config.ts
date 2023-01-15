@@ -1,12 +1,9 @@
 import { AxiosResponse } from "axios";
 import { IMyResponse } from "service";
 import { RequestConfig } from "./types";
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 export const config: RequestConfig = {
   baseURL: BASE_URL,
-  // headers: {
-  //   Authorization: "fc627c21-2cae-405b-ad19-66a383c2ca16"
-  // },
   timeout: 1000 * 60 * 5,
   interceptors: {
     requestSuccess: (config) => {

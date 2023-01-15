@@ -10,6 +10,8 @@
 - react-router-dom6: 路由管理工具
 - css module 和 tailwind css 做样式管理方案
 - vite 新一代构建工具
+- 使用 access_token refresh_token 进行无感刷新
+- 支持黑暗模式 色弱模式 自定义调整主题色
 
 ## 准备
 

@@ -1,5 +1,5 @@
 export class UploadTool {
-  handSize(size: number) {
+  transferSize(size: number) {
     let realSize = size;
     let num = 0;
     while (realSize / 1024 > 1) {
@@ -23,7 +23,22 @@ export class UploadTool {
     }
     return realSize.toFixed(2) + unit;
   }
-  handleIdentifier(identifier: string) {
+  cleanIdentifier(identifier: string) {
     return identifier.replace(/[^0-9A-Za-z_-]/g, "");
+  }
+  downloadFile(data: Blob, filename: string) {
+    // create file link in browser's memory
+    const href = URL.createObjectURL(data);
+
+    // create "a" HTML element with href to file & click
+    const link = document.createElement("a");
+    link.href = href;
+    link.setAttribute("download", filename); //or any other extension
+    document.body.appendChild(link);
+    link.click();
+
+    // clean up "a" element & remove ObjectURL
+    document.body.removeChild(link);
+    URL.revokeObjectURL(href);
   }
 }

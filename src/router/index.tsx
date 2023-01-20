@@ -4,6 +4,7 @@ import { NotFound } from "pages/notFound";
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import componentsRoutes from "./module/components";
 import settingRoutes from "./module/setting";
+import resourceRoutes from "./module/resourceManage";
 import { AuthRouter } from "./utils/authRouter";
 import { LazyLoad } from "./utils/lazyLoad";
 const router: RouteObject[] = [
@@ -27,7 +28,8 @@ const router: RouteObject[] = [
     ]
   },
   ...componentsRoutes,
-  ...settingRoutes
+  ...settingRoutes,
+  ...resourceRoutes
 ];
 
 export default createBrowserRouter(router);

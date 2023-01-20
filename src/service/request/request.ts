@@ -43,53 +43,54 @@ export class MyRequest {
         // debugger;
         const { config, data } = res;
         //   错误处理
-        if (data.code !== 200 && res?.data.code !== 401) {
-          return errorHandle(data.code, data.message);
-        } else if (data.code === 401) {
-          const refresh_token = cache.getItem("refresh_token");
-          // token失效
-          if (!isRefresh) {
-            isRefresh = true;
-            return refreshToken({ refresh_token })
-              .then(({ data }) => {
-                cache.setItem("access_token", data.access_token);
-                // 执行中断请求 不能直接传递res.config做参数 会直接报错 ，并且要直接return这个promise 否则原来的中断请求会拿不到返回值
-                request.forEach((fn) => {
-                  fn();
-                });
-                request = [];
-                return this.request({
-                  url: config.url,
-                  method: config.method,
-                  data: config.data,
-                  params: config.params
-                });
-              })
-              .catch((err) => {
-                cache.clear();
-                request = [];
-                message.error("登录状态已过期请重新登录");
-                router.navigate("/login");
-              })
-              .finally(() => {
-                isRefresh = false;
-              }) as unknown as AxiosResponse<IMyResponse>;
-          } else {
-            // 避免重复刷新refreshToken
-            return new Promise((resolve) => {
-              //  多余函数通过Promise挂起
-              request.push(() => {
-                resolve(
-                  this.request({
+        if (data.code && data.code !== 200) {
+          if (data.code === 401) {
+            const refresh_token = cache.getItem("refresh_token");
+            // token失效
+            if (!isRefresh) {
+              isRefresh = true;
+              return refreshToken({ refresh_token })
+                .then(({ data }) => {
+                  cache.setItem("access_token", data.access_token);
+                  // 执行中断请求 不能直接传递res.config做参数 会直接报错 ，并且要直接return这个promise 否则原来的中断请求会拿不到返回值
+                  request.forEach((fn) => {
+                    fn();
+                  });
+                  request = [];
+                  return this.request({
                     url: config.url,
                     method: config.method,
                     data: config.data,
                     params: config.params
-                  })
-                );
+                  });
+                })
+                .catch((err) => {
+                  cache.clear();
+                  request = [];
+                  message.error("登录状态已过期请重新登录");
+                  router.navigate("/login");
+                })
+                .finally(() => {
+                  isRefresh = false;
+                }) as unknown as AxiosResponse<IMyResponse>;
+            } else {
+              // 避免重复刷新refreshToken
+              return new Promise((resolve) => {
+                //  多余函数通过Promise挂起
+                request.push(() => {
+                  resolve(
+                    this.request({
+                      url: config.url,
+                      method: config.method,
+                      data: config.data,
+                      params: config.params
+                    })
+                  );
+                });
               });
-            });
+            }
           }
+          return errorHandle(data.code, data.message);
         }
 
         // 成功提示

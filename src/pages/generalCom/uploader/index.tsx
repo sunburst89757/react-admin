@@ -27,21 +27,21 @@ export default function Upload() {
       for (const file of rootFile.files) {
         merge({
           // @ts-ignore
-          identifier: uploadTool.handleIdentifier(file.uniqueIdentifier),
+          identifier: uploadTool.cleanIdentifier(file.uniqueIdentifier),
           filename: file.name,
           uploadBy: userId,
           // @ts-ignore
-          size: uploadTool.handleSize(file.size)
+          size: uploadTool.transferSize(file.size)
         });
       }
     } else {
       merge({
         // @ts-ignore
-        identifier: uploadTool.handleIdentifier(file.uniqueIdentifier),
+        identifier: uploadTool.cleanIdentifier(rootFile.uniqueIdentifier),
         filename: rootFile.name,
         uploadBy: userId,
         // @ts-ignore
-        size: handleSize(rootFile.size)
+        size: uploadTool.transferSize(rootFile.size)
       });
     }
 

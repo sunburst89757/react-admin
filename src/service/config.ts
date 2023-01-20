@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { IMyResponse } from "service";
 import { RequestConfig } from "./types";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+export const BASE_URL = import.meta.env.VITE_BASE_URL;
 export const config: RequestConfig = {
   baseURL: BASE_URL,
   timeout: 1000 * 60 * 5,

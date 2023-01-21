@@ -22,7 +22,7 @@ export function getFileList(data: PageInfo & Pick<IFile, "filename">) {
 export function downloadFile(data: Pick<IFile, "filename">) {
   return myRequest<any, any>({
     url: "/file/download",
-    method: "get",
+    method: "post",
     responseType: "blob",
     data
   });

@@ -1,4 +1,3 @@
-@import "antd/dist/antd.variable.min.css";
 @tailwind base;
 /* 这个样式下的媒体查询会导致大屏幕下基本样式溢出 */
 /* @tailwind components; */

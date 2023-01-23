@@ -1,7 +1,8 @@
 import { ConfigProvider } from "antd";
 import { useCallback, useEffect } from "react";
 import { useAppSelector } from "store/types";
-import dark from "../style/dark.scss?inline";
+import darkTheme from "../style/dark.scss?inline";
+import defaultTheme from "../style/default.scss?inline";
 export const useTheme = () => {
   const { grayOrColorWeak, isDark, grayColor, colorWeak, themeColor } =
     useAppSelector((state) => state.theme);
@@ -20,15 +21,12 @@ export const useTheme = () => {
     }
   }, [grayOrColorWeak, grayColor, colorWeak]);
   const changeDark = useCallback(() => {
-    if (isDark) {
-      const style = document.createElement("style");
-      style.id = "dark";
-      style.innerHTML = dark;
-      let head = document.getElementsByTagName("head")[0];
-      head.appendChild(style);
-    } else {
-      document.getElementById("dark")?.remove();
-    }
+    document.getElementById("theme")?.remove();
+    const style = document.createElement("style");
+    style.id = "theme";
+    style.innerHTML = isDark ? darkTheme : defaultTheme;
+    let head = document.getElementsByTagName("head")[0];
+    head.appendChild(style);
   }, [isDark]);
   const changeThemeColor = useCallback(() => {
     ConfigProvider.config({

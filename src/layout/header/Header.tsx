@@ -70,7 +70,7 @@ export function MyHeader({ isCollapse, onClick }: propType) {
             className={style.icon}
           ></MenuFoldOutlined>
         )}
-        <h2>XXX管理平台</h2>
+        <h2 className="text-white p-0 m-0">XXX管理平台</h2>
       </div>
       <div className={style.rightBlock}>
         <div className={style.informBox}>

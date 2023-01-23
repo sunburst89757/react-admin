@@ -15,7 +15,7 @@ import Uploader, {
   UploaderFile,
   UploaderList
 } from "react-simple-upload";
-import { UploadFile } from "react-simple-upload/dist/types";
+import { UploadChunk, UploadFile } from "react-simple-upload/dist/types";
 import { BASE_URL } from "service/config";
 import { useAppSelector } from "store/types";
 import { UploadTool } from "utils/Upload";
@@ -26,11 +26,12 @@ export default function Upload() {
     target: `${BASE_URL}/upload/uploadChunk`, // '//jsonplaceholder.typicode.com/posts/',
     // target: "//localhost:3000/upload",
     testChunks: true,
-    checkChunkUploadedByResponse: (chunk: any, message: any) => {
+    checkChunkUploadedByResponse: (chunk: UploadChunk, message: string) => {
       const { data } = JSON.parse(message);
       if (data.skip) {
         return true;
       }
+      // @ts-ignore
       return (data.uploaded || []).indexOf(chunk.offset + 1) >= 0;
     }
   });
@@ -61,6 +62,11 @@ export default function Upload() {
   return (
     <MainLayout>
       <>
+        {userId === 11 ? (
+          <h1 className="text-[#ff0000]">
+            为保护服务器，测试用户上传五个文件后，服务器会手动清除所有上传的文件及其切片
+          </h1>
+        ) : null}
         <Divider>默认样式</Divider>
         <Uploader
           options={options}

@@ -1,5 +1,4 @@
 import { Layout } from "antd";
-import { useTheme } from "hooks/useTheme";
 import { useState } from "react";
 import { MyContent } from "./content/Content";
 import { MyHeader } from "./header/Header";
@@ -9,8 +8,6 @@ export const MyLayout = () => {
   const toggle = () => {
     setisCollapse(!isCollapse);
   };
-  // 主题使用
-  useTheme();
   return (
     <>
       <Layout className="container">

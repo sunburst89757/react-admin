@@ -27,6 +27,10 @@ const router: RouteObject[] = [
       {
         path: "uploader",
         element: <LazyLoad path="generalCom/upload"></LazyLoad>
+      },
+      {
+        path: "echarts",
+        element: <LazyLoad path="generalCom/echarts"></LazyLoad>
       }
     ]
   }

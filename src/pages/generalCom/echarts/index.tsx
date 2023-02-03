@@ -1,6 +1,5 @@
 import { Radio, RadioChangeEvent } from "antd";
 import { MainLayout } from "components/MainLayout/MainLayout";
-import { stat } from "fs";
 import { useState } from "react";
 import { randomData } from "utils/random";
 import { ColumnChart1 } from "./components/ColumnChart1";

@@ -22,6 +22,7 @@ function getItem(
     type
   } as MenuItem;
 }
+
 export function MySider({ isCollapse }: { isCollapse: boolean }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -34,7 +35,16 @@ export function MySider({ isCollapse }: { isCollapse: boolean }) {
     for (let i = e.keyPath.length - 1; i >= 0; i--) {
       path += `/${e.keyPath[i]}`;
     }
-    navigate(path);
+    navigateTo(path);
+  };
+  const navigateTo = (path: string) => {
+    if (path === "/github") {
+      window.location.href = "https://github.com/sunburst89757/react-admin";
+    } else if (path === "/blog") {
+      window.location.href = "https://sunburst89757.github.io/";
+    } else {
+      navigate(path);
+    }
   };
   const menuItems = useMemo(() => {
     return menu.map((item) => {

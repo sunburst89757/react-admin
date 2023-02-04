@@ -12,7 +12,7 @@ import {
 import { addMenu, editMenu, Menu } from "api/menu";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "store/types";
-import { generateAuthMenu } from "utils/generateAuthMenu";
+import { generateAuthMenuAndButtons } from "utils/generateAuthMenu";
 import { MenuDataType } from "..";
 function AddOrUpdateMenu({
   type,
@@ -38,7 +38,7 @@ function AddOrUpdateMenu({
       }).then(async (res) => {
         if (res.success) {
           // 更新了后端路由也要立即更新权限路由
-          await generateAuthMenu(roleId, dispatch);
+          await generateAuthMenuAndButtons(roleId, dispatch);
           toggle();
           cb();
         }
@@ -51,7 +51,7 @@ function AddOrUpdateMenu({
       }).then(async (res) => {
         if (res.success) {
           // 更新了后端路由也要立即更新权限路由
-          await generateAuthMenu(roleId, dispatch);
+          await generateAuthMenuAndButtons(roleId, dispatch);
           toggle();
           cb();
         }

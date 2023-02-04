@@ -11,7 +11,7 @@ import { MainLayout } from "components/MainLayout/MainLayout";
 import { MyTree } from "components/MyTree/MyTree";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "store/types";
-import { generateAuthMenu } from "utils/generateAuthMenu";
+import { generateAuthMenuAndButtons } from "utils/generateAuthMenu";
 import { transferTime } from "utils/handleTime";
 import AddOrUpdateMenu from "./components/addOrUpdateMenu";
 export type MenuDataType = Pick<
@@ -196,7 +196,7 @@ export default function MenuManage() {
   const onDelete = useCallback(
     async (id: number) => {
       await deleteMenu(id);
-      await generateAuthMenu(roleId, dispatch);
+      await generateAuthMenuAndButtons(roleId, dispatch);
       queryRequest();
     },
     [roleId, dispatch, queryRequest]

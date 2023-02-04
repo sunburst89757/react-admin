@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { authReducer } from "./module/auth.store";
 import { menuReducer } from "./module/menu.store";
 import { tagReducer } from "./module/tag.store";
 import { themeReducer } from "./module/theme.strore";
@@ -16,7 +17,8 @@ const persistedReducer = persistReducer(
     user: userReducer,
     menu: menuReducer,
     tag: tagReducer,
-    theme: themeReducer
+    theme: themeReducer,
+    auth: authReducer
   })
 );
 export const store = configureStore({

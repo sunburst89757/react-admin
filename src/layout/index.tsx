@@ -8,6 +8,7 @@ export const MyLayout = () => {
   const toggle = () => {
     setisCollapse(!isCollapse);
   };
+
   return (
     <>
       <Layout className="container">

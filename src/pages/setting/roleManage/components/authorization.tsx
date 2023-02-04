@@ -5,7 +5,7 @@ import React, { Key, useEffect, useRef, useState } from "react";
 import { DataNode, TreeProps } from "antd/lib/tree";
 import { getMenuListByRoleId } from "api/user";
 import { updateRoleMenuList } from "api/role";
-import { generateAuthMenu } from "utils/generateAuthMenu";
+import { generateAuthMenuAndButtons } from "utils/generateAuthMenu";
 import { useAppDispatch, useAppSelector } from "store/types";
 
 function Authorization({
@@ -71,7 +71,7 @@ function Authorization({
       if (res.success) {
         // 只有更新的角色菜单 和 当前登录的角色是相同的时候才会立刻更新菜单
         if (currentRoleId === roleId) {
-          await generateAuthMenu(roleId, dispatch);
+          await generateAuthMenuAndButtons(roleId, dispatch);
         }
         toggle();
       }

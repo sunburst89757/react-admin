@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { IAuthRoute } from "store/module/menu.store";
 import { useAppDispatch, useAppSelector } from "store/types";
 import { cache } from "utils/cache";
-import { generateAuthMenu } from "utils/generateAuthMenu";
+import { generateAuthMenuAndButtons } from "utils/generateAuthMenu";
 const isPermit = (url: string, authRoutes: IAuthRoute[]) => {
   // 为了防止刚登录页面时会闪烁进入notAuth页面
   if (url === "/dashboard") return true;
@@ -21,7 +21,7 @@ export const AuthRouter = ({ children }: { children: JSX.Element }) => {
   if (!access_token) return <Navigate to="/login"></Navigate>;
   // 初始登录 获取可访问的路由
   if (authRoutes.length === 0) {
-    generateAuthMenu(roleId, dispatch);
+    generateAuthMenuAndButtons(roleId, dispatch);
   }
   if (pathname === "/") return <Navigate to="/dashboard"></Navigate>;
   if (!isPermit(pathname, authRoutes)) return <NotAuth></NotAuth>;

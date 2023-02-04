@@ -10,6 +10,6 @@ export const useAuthButtons = () => {
     [authButtons, pathname]
   );
 
-  const [authArr] = useState(res[0]);
+  const [authArr] = useState(res[0] || { pathname, auth: [] });
   return authArr;
 };

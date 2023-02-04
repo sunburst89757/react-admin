@@ -24,6 +24,10 @@ const router: RouteObject[] = [
       {
         path: "dashboard",
         element: <LazyLoad path="dashboard"></LazyLoad>
+      },
+      {
+        path: "auth",
+        element: <LazyLoad path="auth"></LazyLoad>
       }
     ]
   },

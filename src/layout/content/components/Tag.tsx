@@ -1,6 +1,6 @@
-import { useUpdateEffect } from "ahooks";
 import { Tag } from "antd";
 import { Icon } from "components/Icon/Icon";
+import { useWatch } from "hooks/useWatch";
 import { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addTag, deleteTag, ITag } from "store/module/tag.store";
@@ -34,7 +34,7 @@ export const MyTag = () => {
     },
     [dispatch, navigate, tags]
   );
-  useUpdateEffect(() => {
+  useWatch(() => {
     //  添加不在tags维护的tag
     if (!isIncludeTag(location.pathname, tags)) {
       const newTag: ITag = {

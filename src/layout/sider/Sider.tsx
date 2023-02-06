@@ -1,5 +1,5 @@
-import { useUpdateEffect } from "ahooks";
 import { Layout, Menu, MenuProps } from "antd";
+import { useWatch } from "../../hooks/useWatch";
 import { Icon } from "components/Icon/Icon";
 import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -64,7 +64,7 @@ export function MySider({ isCollapse }: { isCollapse: boolean }) {
   const onOpenChange = (key: string[]) => {
     setopenKey(key[key.length - 1]);
   };
-  useUpdateEffect(() => {
+  useWatch(() => {
     const urlArr = location.pathname.split("/");
     if (urlArr.length === 2) {
       setopenKey(urlArr[urlArr.length - 1]);

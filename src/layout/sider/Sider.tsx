@@ -1,7 +1,6 @@
 import { Layout, Menu, MenuProps } from "antd";
-import { useWatch } from "../../hooks/useWatch";
 import { Icon } from "components/Icon/Icon";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "store/types";
 // antd根据配置生成的菜单项
@@ -22,13 +21,28 @@ function getItem(
     type
   } as MenuItem;
 }
-
+function getOpenAndSeletKey(pathname: string) {
+  const urlArr = pathname.split("/");
+  let openKey = "";
+  const selectKey = urlArr[urlArr.length - 1];
+  if (urlArr.length === 2) {
+    openKey = urlArr[urlArr.length - 1];
+  } else {
+    openKey = urlArr[urlArr.length - 2];
+  }
+  return {
+    openKey,
+    selectKey
+  };
+}
 export function MySider({ isCollapse }: { isCollapse: boolean }) {
   const navigate = useNavigate();
   const location = useLocation();
   const menu = useAppSelector((state) => state.menu.menuBackend);
-  const [selectKey, setselectKey] = useState("dashboard");
-  const [openKey, setopenKey] = useState("dashboard");
+  const [openAndSeletKey, setOpenAndSelectKey] = useState({
+    openKey: "",
+    selectKey: ""
+  });
   const onClick: MenuProps["onClick"] = (e) => {
     console.log(e);
     let path = "";
@@ -62,16 +76,14 @@ export function MySider({ isCollapse }: { isCollapse: boolean }) {
     });
   }, [menu]);
   const onOpenChange = (key: string[]) => {
-    setopenKey(key[key.length - 1]);
+    setOpenAndSelectKey({
+      ...openAndSeletKey,
+      openKey: key[key.length - 1]
+    });
   };
-  useWatch(() => {
-    const urlArr = location.pathname.split("/");
-    if (urlArr.length === 2) {
-      setopenKey(urlArr[urlArr.length - 1]);
-    } else {
-      setopenKey(urlArr[urlArr.length - 2]);
-    }
-    setselectKey(urlArr[urlArr.length - 1]);
+  useEffect(() => {
+    const openAndSelectKey = getOpenAndSeletKey(location.pathname);
+    setOpenAndSelectKey(openAndSelectKey);
   }, [location.pathname]);
   return (
     <Sider trigger={null} collapsible collapsed={isCollapse}>
@@ -80,8 +92,8 @@ export function MySider({ isCollapse }: { isCollapse: boolean }) {
         mode="inline"
         items={menuItems}
         theme="dark"
-        selectedKeys={[selectKey]}
-        openKeys={[openKey]}
+        selectedKeys={[openAndSeletKey.selectKey]}
+        openKeys={[openAndSeletKey.openKey]}
         onOpenChange={onOpenChange}
       />
     </Sider>

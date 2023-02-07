@@ -13,7 +13,8 @@ import { addMenu, editMenu, Menu } from "api/menu";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "store/types";
 import { generateAuthMenuAndButtons } from "utils/generateAuthMenu";
-import { MenuDataType } from "..";
+import { MenuDataType } from "./menuTable";
+
 function AddOrUpdateMenu({
   type,
   isOpen,

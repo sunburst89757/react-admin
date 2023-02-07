@@ -1,266 +1,89 @@
 import { useRequest, useToggle } from "ahooks";
-import { Button, Col, Form, Row, Space, Table } from "antd";
-import { ColumnsType } from "antd/lib/table";
-import { DataNode } from "antd/lib/tree";
-import { deleteMenu, Menu } from "api/menu";
+import { Button } from "antd";
+import { Menu } from "api/menu";
 import { getMenuList as queryMenuList } from "api/menu";
 import { PageInfo } from "api/types";
 import { Icon } from "components/Icon/Icon";
-import { LayoutTree } from "components/LayoutTree/LayoutTree";
 import { MainLayout } from "components/MainLayout/MainLayout";
-import { MyTree } from "components/MyTree/MyTree";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "store/types";
-import { generateAuthMenuAndButtons } from "utils/generateAuthMenu";
-import { transferTime } from "utils/handleTime";
+import { useMount } from "hooks/useMount";
+import { useRef, useState } from "react";
 import AddOrUpdateMenu from "./components/addOrUpdateMenu";
-export type MenuDataType = Pick<
-  Menu,
-  | "name"
-  | "icon"
-  | "sort"
-  | "createdAt"
-  | "updatedAt"
-  | "isValid"
-  | "id"
-  | "path"
->;
+import { MenuDataType, MenuTable } from "./components/menuTable";
+import { MenuTree } from "./components/menuTree";
 
 export default function MenuManage() {
-  const { run: getMenuList, loading } = useRequest(queryMenuList, {
-    manual: true,
-    onSuccess: (res) => {
-      const { page, pageSize } = res.data;
-      setdataList(res.data.list);
-      setpageInfo({
-        page,
-        pageSize
-      });
-      settotal(res.data.total);
-    }
-  });
-  const dispatch = useAppDispatch();
-  const roleId = useAppSelector((state) => state.user.userInfo.roleId);
   const [isOpen, { toggle }] = useToggle(false);
   const [type, setType] = useState<"add" | "update">("add");
-  // 初始值必须为空，空才是查询所有
-  const [id, setId] = useState(0);
-  const [dataList, setdataList] = useState<Menu[]>();
-  const [pageInfo, setpageInfo] = useState<PageInfo>({
-    page: 1,
-    pageSize: 10
-  });
-  const [total, settotal] = useState<number>(10);
+  const rowData = useRef<MenuDataType>();
+  const onEdit = (params: MenuDataType) => {
+    rowData.current = params;
+    setType("update");
+    toggle();
+  };
+
+  // 查询参数
   const queryParmas = useRef<
     {
       id: number;
     } & PageInfo
   >({
-    id,
-    ...pageInfo
+    id: 0,
+    page: 1,
+    pageSize: 10
   });
-  const queryRequest = useCallback(() => {
-    getMenuList(queryParmas.current);
-  }, [getMenuList]);
-  const rowData = useRef<MenuDataType>();
-  const menu = useAppSelector((state) => state.menu.menuBackend);
-  const treeData = useMemo(() => {
-    const tree: DataNode[] = [];
-    menu.forEach((route) => {
-      const children: DataNode[] = [];
-      if (route.children) {
-        route.children.forEach((childRoute) => {
-          const obj: DataNode = {
-            title: childRoute.name,
-            key: childRoute.id
-          };
-          children.push(obj);
-        });
-      }
-      const obj: DataNode = {
-        title: route.name,
-        key: route.id
-      };
-      children.length > 0 && (obj.children = children);
-      tree.push(obj);
-    });
-    return [
-      {
-        key: "",
-        title: "系统资源",
-        children: tree
-      }
-    ];
-  }, [menu]);
-  const columns = useRef<ColumnsType<MenuDataType>>([
-    {
-      title: "菜单名称",
-      dataIndex: "name",
-      align: "center",
-      key: "name"
-    },
-    {
-      title: "图标",
-      key: "icon",
-      render: (_, record) => <Icon type={record.icon}></Icon>,
-      align: "center"
-    },
-    {
-      title: "路由",
-      key: "path",
-      dataIndex: "path",
-      align: "center"
-    },
-    {
-      title: "排序",
-      dataIndex: "sort",
-      key: "sort",
-      align: "center"
-    },
-    {
-      title: "状态",
-      key: "isValid",
-      render: (_, record) => (
-        <Button type="ghost" size="small">
-          {record.isValid ? "正常" : "禁用"}
-        </Button>
-      ),
-      align: "center"
-    },
-    {
-      title: "创建时间",
-      render: (record) => transferTime(record.createdAt),
-      key: "createdAt",
-      align: "center"
-    },
-    {
-      title: "更新时间",
-      render: (record) => transferTime(record.updatedAt),
-      key: "updatedAt",
-      align: "center"
-    },
-    {
-      title: "操作",
-      key: "action",
-      render: (_, record) => (
-        <Space size="middle">
-          <Button
-            type="primary"
-            onClick={() => {
-              setType("update");
-              rowData.current = record;
-              toggle();
-            }}
-          >
-            修改
-          </Button>
-          <Button
-            danger
-            onClick={() => {
-              onDelete(record.id);
-            }}
-          >
-            删除
-          </Button>
-        </Space>
-      ),
-      align: "center"
+  // table状态
+  const [dataList, setdataList] = useState<Menu[]>();
+  const [total, setTotal] = useState<number>(10);
+  const { run: getDataList, loading } = useRequest(queryMenuList, {
+    manual: true,
+    onSuccess: (res) => {
+      setdataList(res.data.list);
+      setTotal(res.data.total);
     }
-  ]);
-  const onSelect = useCallback(
-    (selectedKeys: React.Key[], info: any) => {
-      const {
-        selectedNodes
-      }: {
-        selectedNodes: DataNode[];
-      } = info;
-      const node: number = selectedNodes[0].key as number;
-      setId(node);
-      queryParmas.current.id = node;
-      queryRequest();
-    },
-    [queryRequest]
-  );
-  const onChange = useCallback(
-    (page: number, pageSize: number) => {
-      queryParmas.current.page = page;
-      queryParmas.current.pageSize = pageSize;
-      setpageInfo({
-        page,
-        pageSize
-      });
-      queryRequest();
-    },
-    [queryRequest]
-  );
-  const onDelete = useCallback(
-    async (id: number) => {
-      await deleteMenu(id);
-      await generateAuthMenuAndButtons(roleId, dispatch);
-      queryRequest();
-    },
-    [roleId, dispatch, queryRequest]
-  );
+  });
 
-  useEffect(() => {
-    queryRequest();
-  }, [queryRequest]);
+  const onRequest = (params?: PageInfo | { id: number }) => {
+    queryParmas.current = {
+      ...queryParmas.current,
+      ...params
+    };
+    getDataList(queryParmas.current);
+  };
+
+  useMount(() => {
+    onRequest();
+  });
 
   return (
     <>
-      <LayoutTree>
-        <MyTree
-          treeData={treeData}
-          isSearch
-          otherOption={{
-            onSelect: onSelect
-          }}
-        ></MyTree>
-      </LayoutTree>
+      <MenuTree onRequest={onRequest}></MenuTree>
       <MainLayout>
         <>
-          <Row gutter={16}>
-            <Col span={6}>
-              <Form.Item>
-                <Button
-                  type="primary"
-                  icon={<Icon type="icon-add" />}
-                  onClick={() => {
-                    setType("add");
-                    toggle();
-                  }}
-                >
-                  添加
-                </Button>
-              </Form.Item>
-            </Col>
-          </Row>
+          <Button
+            type="primary"
+            icon={<Icon type="icon-add" />}
+            className=" mb-5"
+            onClick={() => {
+              setType("add");
+              toggle();
+            }}
+          >
+            添加
+          </Button>
           <AddOrUpdateMenu
             type={type}
             isOpen={isOpen}
             toggle={toggle}
             data={rowData.current}
-            cb={queryRequest}
+            cb={onRequest}
           ></AddOrUpdateMenu>
-          <Table
-            rowKey={(record) => record.id}
-            dataSource={dataList}
-            columns={columns.current}
-            size="small"
-            bordered
-            pagination={{
-              position: ["bottomRight"],
-              showQuickJumper: true,
-              defaultCurrent: 1,
-              total: total,
-              onChange: onChange,
-              pageSize: pageInfo.pageSize,
-              pageSizeOptions: [1, 2, 5],
-              showSizeChanger: true,
-              showTotal: (total) => `总计${total}`
-            }}
+          <MenuTable
+            dataList={dataList}
+            onRequest={onRequest}
             loading={loading}
-          />
+            total={total}
+            onEdit={onEdit}
+          ></MenuTable>
         </>
       </MainLayout>
     </>

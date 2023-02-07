@@ -61,11 +61,16 @@ export const MenuTable = ({
     {
       title: "状态",
       key: "isValid",
-      render: (_, record) => (
-        <Button type="ghost" size="small">
-          {record.isValid ? "正常" : "禁用"}
-        </Button>
-      ),
+      render: (_, record) =>
+        record.isValid ? (
+          <Button type="ghost" size="small">
+            正常
+          </Button>
+        ) : (
+          <Button type="ghost" size="small" danger>
+            禁用
+          </Button>
+        ),
       align: "center"
     },
     {

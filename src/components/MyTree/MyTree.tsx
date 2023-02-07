@@ -45,7 +45,8 @@ export const MyTree = React.memo(
   }) => {
     console.log("重新渲染");
     const [searchValue, setSearchValue] = useState("");
-    const [expandedKeys, setExpandedKeys] = useState<Key[]>();
+    // 设置[""]默认展开一级菜单
+    const [expandedKeys, setExpandedKeys] = useState<Key[]>([""]);
     const [autoExpandParent, setAutoExpandParent] = useState(false);
     const onExpand = useCallback((newExpandedKeys: Key[], info: any) => {
       setExpandedKeys(newExpandedKeys);

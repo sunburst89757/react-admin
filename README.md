@@ -1,6 +1,10 @@
-# react-ts-admin
+# react-admin
 
-这是一个利用 react18 + typescript 实现的 Web [后台管理系统模板](http://47.98.204.143:3000/login),后台基于[react-admin-backend](https://github.com/sunburst89757/react-admin-backend),由 koa typescript 实现。
+[在线预览](http://47.98.204.143:3000/login)
+
+账号： test/test(测试用户) admin/admin111(管理员用户)
+
+这是一个利用 react18 + typescript 实现的 Web 后台管理系统模板,后台基于[react-admin-backend](https://github.com/sunburst89757/react-admin-backend),由 koa typescript 实现。
 
 ## 特性
 
@@ -10,8 +14,11 @@
 - react-router-dom6: 路由管理工具
 - css module 和 tailwind css 做样式管理方案
 - vite 新一代构建工具
-- 使用 access_token refresh_token 进行无感刷新
+- 使用 access_token refresh_token 支持无感刷新
+- 支持页面级、资源级权限管理方案
 - 支持黑暗模式 色弱模式 自定义调整主题色
+- 封装了易用的 echarts hook,快速创建 echarts 图表
+- 集成了通用的[大文件上传组件](https://github.com/sunburst89757/react-simple-upload)支持秒传 断点续传
 
 ## 准备
 

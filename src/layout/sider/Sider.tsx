@@ -3,6 +3,7 @@ import { Icon } from "components/Icon/Icon";
 import { useMemo, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "store/types";
+import { Menu as MenuType } from "api/menu";
 // antd根据配置生成的菜单项
 const { Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
@@ -61,19 +62,18 @@ export function MySider({ isCollapse }: { isCollapse: boolean }) {
     }
   };
   const menuItems = useMemo(() => {
-    return menu.map((item) => {
-      if (item.children) {
-        return getItem(
-          item.name,
-          item.path,
-          <Icon type={item.icon}></Icon>,
-          item.children.map((child) =>
-            getItem(child.name, child.path, <Icon type={child.icon}></Icon>)
-          )
-        );
-      }
-      return getItem(item.name, item.path, <Icon type={item.icon}></Icon>);
-    });
+    function generateMenu(menu: MenuType[]): any {
+      return menu.map((item) => {
+        if (item.children) {
+          return {
+            ...getItem(item.name, item.path, <Icon type={item.icon}></Icon>),
+            children: generateMenu(item.children)
+          };
+        }
+        return getItem(item.name, item.path, <Icon type={item.icon}></Icon>);
+      });
+    }
+    return generateMenu(menu);
   }, [menu]);
   const onOpenChange = (key: string[]) => {
     setOpenAndSelectKey({
